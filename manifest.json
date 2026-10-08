@@ -11,6 +11,7 @@
       "author": "羽鳞君",
       "version": "1.0.0",
       "description": "内联 SVG 锦鲤，拖到画布落一张贴纸。",
+      "preview": "<svg viewBox=\"0 0 120 120\" width=\"100%\" height=\"100%\" aria-label=\"锦鲤\"><circle cx=\"60\" cy=\"60\" r=\"56\" fill=\"#fff7ef\"/><path d=\"M30 64c14-18 46-18 60 0-14 18-46 18-60 0z\" fill=\"#e8703a\"/><path d=\"M86 64c8-6 14-4 16 0-2 4-8 6-16 0z\" fill=\"#e8703a\"/><circle cx=\"44\" cy=\"60\" r=\"4\" fill=\"#2a2a2a\"/></svg>",
       "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/锦鲤贴纸.js"
     },
     {
@@ -20,6 +21,7 @@
       "author": "羽鳞君",
       "version": "1.0.0",
       "description": "深紫夜山纸纹皮肤，拖进画布新建/换肤。",
+      "preview": "<div style=\"width:100%;height:100%;border-radius:6px;background:linear-gradient(160deg,#2a2440,#3a2f55);color:#e9e2ff;display:flex;align-items:flex-end;padding:8px;font-size:11px;letter-spacing:.2em\">暮山紫</div>",
       "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/暮山紫.js"
     },
     {
@@ -29,6 +31,7 @@
       "author": "羽鳞君",
       "version": "1.0.0",
       "description": "字体素材（演示用系统楷体栈），拖到卡片换字体。",
+      "preview": "<div style=\"width:100%;height:100%;border-radius:6px;background:#f4efe6;color:#3a3027;display:flex;align-items:center;justify-content:center;font-family:'STKaiti','KaiTi',serif;font-size:34px\">松</div>",
       "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/松风体.js"
     },
     {
@@ -38,6 +41,7 @@
       "author": "羽鳞君",
       "version": "1.0.0",
       "description": "模板：暮山紫纸纹 + 松风体字体，拖入画布套用预设。",
+      "preview": "<div style=\"width:100%;height:100%;border-radius:6px;background:linear-gradient(160deg,#2a2440,#3a2f55);color:#e9e2ff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'STKaiti','KaiTi',serif;\"><div style=\"font-size:22px;letter-spacing:.3em\">竹影</div><div style=\"font-size:11px;opacity:.7;margin-top:4px\">暮山紫 · 松风体</div></div>",
       "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/竹影模板.js"
     }
   ]
