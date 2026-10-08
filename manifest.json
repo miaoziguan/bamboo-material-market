@@ -1,0 +1,44 @@
+{
+  "name": "竹林便签素材市场",
+  "license": "竹林用户专享 · 未经授权禁止使用（含个人使用） © 2026 羽鳞君 保留所有权利",
+  "repo": "bamboo-material-market",
+  "readme": "每个素材一个 .js 文件，导出 window.__bamboo_material_<id>，契约见 README.md。",
+  "materials": [
+    {
+      "id": "锦鲤贴纸",
+      "name": "锦鲤贴纸",
+      "type": "sticker",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "内联 SVG 锦鲤，拖到画布落一张贴纸。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/锦鲤贴纸.js"
+    },
+    {
+      "id": "暮山紫",
+      "name": "暮山紫",
+      "type": "paper",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "深紫夜山纸纹皮肤，拖进画布新建/换肤。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/暮山紫.js"
+    },
+    {
+      "id": "松风体",
+      "name": "松风体",
+      "type": "font",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "字体素材（演示用系统楷体栈），拖到卡片换字体。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/松风体.js"
+    },
+    {
+      "id": "竹影模板",
+      "name": "竹影模板",
+      "type": "template",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "模板：暮山紫纸纹 + 松风体字体，拖入画布套用预设。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/竹影模板.js"
+    }
+  ]
+}
