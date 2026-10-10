@@ -7,7 +7,7 @@ const material = {
 
   // 市场列表缩略图：内联用户设计 SVG（默认 preserveAspectRatio=meet 不失真）
   preview:
-    `<svg width="100%" height="100%" viewBox="0 0 400 300" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:affinity="https://www.affinity.studio/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    `<svg width="100%" height="100%" viewBox="2 64 396 172" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:affinity="https://www.affinity.studio/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <g id="图层-1" affinity:id="图层 1" transform="matrix(0.182726,0,0,0.182726,-276.408183,-0.000073)">
         <g transform="matrix(1,0,0,1,21.890707,0)">
             <g transform="matrix(0.411412,0,0,0.411412,3657.98194,610.986024)">
