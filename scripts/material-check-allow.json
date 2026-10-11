@@ -1,0 +1,19 @@
+{
+  "_comment": [
+    "素材发布闸门的豁免清单 —— 由 scripts/check-materials.js 消费。",
+    "",
+    "【当前状态：空清单，零豁免】",
+    "",
+    "【登记标准】（沿用插件侧 scripts/html-escape-allow.json 的约定）",
+    "  1. 仅在「改素材本身不可行」时才登记，且必须写出 _reason 供后人复核；",
+    "  2. 优先改素材（收紧 viewBox、内联样式、压缩位图…），都不适用才登记；",
+    "  3. 一旦素材已修复，必须同步从本清单移除，避免豁免长期滞留。",
+    "",
+    "【格式】\"素材id\": [\"规则名\", …]，并在 _reason[\"素材id\"] 写明原因。",
+    "【规则名】manifest-fields / manifest-type / manifest-url / file-missing / js-exec /",
+    "          js-render / svg-root / viewbox / viewbox-fit / viewbox-overflow / bbox /",
+    "          no-bg-rect / no-global-style / no-class / no-script / no-event-attr /",
+    "          no-javascript-url / no-external / bitmap-size / size-budget / thumb-budget"
+  ],
+  "_reason": {}
+}

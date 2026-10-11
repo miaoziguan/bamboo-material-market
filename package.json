@@ -1,0 +1,10 @@
+{
+  "name": "bamboo-material-market",
+  "version": "1.0.0",
+  "private": true,
+  "description": "竹林便签素材市场 —— Obsidian 插件 bamboo-immortals 的官方素材分发仓库",
+  "scripts": {
+    "check": "node scripts/check-materials.js",
+    "check:report": "node scripts/check-materials.js --report"
+  }
+}

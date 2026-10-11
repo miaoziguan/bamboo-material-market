@@ -80,4 +80,37 @@ window.__bamboo_material_我的素材 = material;
 
 1. 把素材 `.js` 放进 `materials/`，确保文件顶部含版权声明、并导出 `window.__bamboo_material_<id>`。
 2. 在 `manifest.json` 的 `materials` 数组追加一条，填好 `id` / `name` / `type` / `author` / `license` / `version` / `url`（指向本仓库 raw 地址）。
-3. 提交并推送到 `main` 分支，插件侧即可在「素材市场」中看到并一键下载。
+3. 提交并推送到 `main` 分支，**CI 会自动跑「素材发布闸门」**，插件侧即可在「素材市场」中看到并一键下载。
+
+## 素材发布闸门（发布前门禁）
+
+`.github/workflows/check-materials.yml` 在每次 push / PR 时自动运行 `scripts/check-materials.js`，**失败即阻断合并**。本地可手动跑：
+
+```bash
+npm run check          # 闸门模式，有失败则退出码 1
+npm run check:report   # 附带全量体检报告（体积 / 位图尺寸 / 内容占比 / viewBox）
+```
+
+脚本零依赖（仅用 Node 内置模块），CI 无需 `npm install`。如需豁免某条规则，登记到 `scripts/material-check-allow.json`（**当前为零豁免**——优先改素材本身）。
+
+### 闸门拦截的事故类型
+
+| 规则 | 拦截的事故 |
+|---|---|
+| `viewbox-fit` | viewBox 未贴合内容，缩略图留白（观宇宙曾只占到 46%×80%） |
+| `no-bg-rect` | 误加铺满画布的不透明背景 `<rect>`（观宇宙曾整块白底） |
+| `no-global-style` / `no-class` | 内嵌 `<style>` + 通用类名，多素材同屏时全局串色（腾云/驾雾事故根因） |
+| `bitmap-size` | 位图长边超 512px（观系列曾 800px，base64 1999KB） |
+| `no-script` / `no-event-attr` / `no-javascript-url` | 内嵌脚本或事件属性（运行时安全风险） |
+| `no-external` | 引用外部资源（破坏离线 / 隐私） |
+| `size-budget` / `thumb-budget` | preview 或 manifest 缩略图超体积预算 |
+
+> 内容「溢出」方向（`viewbox-overflow`）仅告警不阻断：素材常借助 `clip-path` 裁切，几何包围盒无法建模裁剪，硬判会误报。
+
+## 素材制作红线（都是踩过的坑）
+
+1. **位图必须用 `foreignObject` + `<img>` 包起来**，且 `<img>` 用 `width:100%;height:100%` 相对尺寸——这样换图不必改坐标。
+2. **禁止内嵌 `<style>` 与 `class`**：设计工具导出的 `.cls-1/.cls-2` 在 HTML 里是全局作用域，多个素材同屏会互相覆盖导致串色。改用元素自身的 `fill`/`stroke` 属性（插件侧 `SvgIsolate` 也会兜底加作用域，但数据侧自包含更稳）。
+3. **viewBox 必须贴合内容**：量出内容包围盒再设 viewBox，避免缩略图留白。
+4. **位图分辨率 ≤512px、单 preview ≤100KB**（位图类素材的 manifest 缩略图应 ≤20KB）。
+5. **不要铺满画布的不透明背景 `<rect>`**（除非那真是素材的一部分），**不要 `<script>` / 外链**。

@@ -1,0 +1,21 @@
+name: 素材发布闸门
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check-materials:
+    name: 检查素材规范
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 零依赖：脚本只用到 Node 内置模块，无需 npm install
+      - name: 运行素材发布闸门
+        run: node scripts/check-materials.js --report
