@@ -100,6 +100,7 @@ npm run check:report   # 附带全量体检报告（体积 / 位图尺寸 / 内�
 | `viewbox-fit` | viewBox 未贴合内容，缩略图留白（观宇宙曾只占到 46%×80%） |
 | `no-bg-rect` | 误加铺满画布的不透明背景 `<rect>`（观宇宙曾整块白底） |
 | `no-global-style` / `no-class` | 内嵌 `<style>` + 通用类名，多素材同屏时全局串色（腾云/驾雾事故根因） |
+| `root-size` | 根 `<svg>` 被优化工具删掉 `width="100%" height="100%"`，缩略图/画布放大错位（2026-10 腾云预览图事故） |
 | `bitmap-size` | 位图长边超 512px（观系列曾 800px，base64 1999KB） |
 | `no-script` / `no-event-attr` / `no-javascript-url` | 内嵌脚本或事件属性（运行时安全风险） |
 | `no-external` | 引用外部资源（破坏离线 / 隐私） |
@@ -114,3 +115,4 @@ npm run check:report   # 附带全量体检报告（体积 / 位图尺寸 / 内�
 3. **viewBox 必须贴合内容**：量出内容包围盒再设 viewBox，避免缩略图留白。
 4. **位图分辨率 ≤512px、单 preview ≤100KB**（位图类素材的 manifest 缩略图应 ≤20KB）。
 5. **不要铺满画布的不透明背景 `<rect>`**（除非那真是素材的一部分），**不要 `<script>` / 外链**。
+6. **根 `<svg>` 必须自带尺寸**：写 `width="100%" height="100%"`（或 `style="width:100%;height:100%;display:block"`）。缩略图容器（96×96）与画布都靠它填满；一旦缺失，浏览器会退回固有尺寸（= viewBox 像素）导致**预览放大错位/被裁**。注意 svgo 的 `removeUnknownsAndDefaults` 会把它当根元素默认值删掉——压缩/优化素材后务必复查这一项。

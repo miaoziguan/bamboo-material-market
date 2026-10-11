@@ -286,6 +286,13 @@ for (const m of list) {
   const checkStruct = (svg, tag) => {
     if (!svg.startsWith('<svg')) fail(id, 'svg-root', `${tag} 不以 <svg 开头`);
     if (!svg.trim().endsWith('</svg>')) fail(id, 'svg-root', `${tag} 不以 </svg> 结尾`);
+    // 根 <svg> 必须自带尺寸声明（width 属性 或 style 里的 width）：
+    // 缩略图容器（.bm-market-thumb 96×96）与画布都靠它填满。设计工具导出常用 width="100%" height="100%"，
+    // 一旦被 svgo 的 removeUnknownsAndDefaults 当成「根元素默认值」删掉，浏览器会退回固有尺寸（= viewBox 像素），
+    // 在 96px 缩略图里被 overflow:hidden 裁成「放大错位」——这正是腾云/驾雾系列预览图事故的成因。
+    const rootTag = svg.slice(0, svg.indexOf('>') + 1);
+    const sized = /(^|\s)width\s*=\s*["'](?:100%|\d)/i.test(rootTag) || /style\s*=\s*["'][^"']*\bwidth\s*:/i.test(rootTag);
+    if (!sized) fail(id, 'root-size', `${tag} 根 <svg> 未声明尺寸（缺 width 属性 / style 的 width），会在缩略图与画布中放大错位；请加 width="100%" height="100%"`);
     if (/<script/i.test(svg)) fail(id, 'no-script', `${tag} 含 <script>`);
     if (/\son[a-z]+\s*=/i.test(svg)) fail(id, 'no-event-attr', `${tag} 含事件属性（onload/onclick…）`);
     if (/javascript:/i.test(svg)) fail(id, 'no-javascript-url', `${tag} 含 javascript: 协议`);
