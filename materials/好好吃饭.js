@@ -71,9 +71,10 @@ window.__bamboo_material_好好吃饭 = (function () {
         --edge-distort:0;
         --noise:0;
       }
-      .tw-card[data-paper="好好吃饭"] .tw-card-main{ background:transparent; position:relative; height:100%; padding:0; }
+      .tw-card[data-paper="好好吃饭"] .tw-card-edge,.tw-card[data-paper="好好吃饭"] .tw-card-noise{display:none;}
+      .tw-card[data-paper="好好吃饭"] .tw-card-main{ background:transparent; color:#1a1a1a; position:relative; height:100%; padding:0; display:block; }
       .tw-card[data-paper="好好吃饭"] .tw-card-title{ visibility:hidden; }
-      .tw-card[data-paper="好好吃饭"] .tw-card-head{ position:absolute; inset:0; }
+      .tw-card[data-paper="好好吃饭"] .tw-card-head{ position:absolute; inset:0; border:none; padding:0; margin:0; z-index:1; }
       .tw-card[data-paper="好好吃饭"] .tw-card-text{position:absolute; top:24%; left:8%; right:8%; bottom:7%; font-weight:normal; color:#1a1a1a; font-size:0.9em; text-align:center; z-index:2; overflow:auto;}
       .tw-card[data-paper="好好吃饭"] .tw-card-main::after{
         content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
