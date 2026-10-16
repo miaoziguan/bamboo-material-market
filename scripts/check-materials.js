@@ -393,10 +393,15 @@ for (const m of list) {
     if (!bb) fail(id, 'bbox', '无法解析内容包围盒');
     else {
       fw = bb.w / vb.w; fh = bb.h / vb.h;
+      // 用了 clipPath/mask 的素材，几何包围盒会把「被裁掉的大块」也算进去，
+      // 于是溢出方向必然误报（东方：75 个 clipPath 把大图裁成小块，几何算到 105%×134%，
+      // 实际渲染在原 viewBox 之外 0 个像素）。故此类素材只保留「留白」方向的判定——
+      // 包围盒只会偏大、不会偏小，所以「内容不足 90%」的结论依然成立。
+      const clipped = /<clipPath\b|<mask\b/i.test(full);
       if (fw < LIMIT.FIT_MIN || fh < LIMIT.FIT_MIN) {
         fail(id, 'viewbox-fit', `viewBox 未贴合内容：内容占 ${(fw * 100).toFixed(0)}%×${(fh * 100).toFixed(0)}%（需 ≥${LIMIT.FIT_MIN * 100}%）；建议 viewBox="${bb.x.toFixed(1)} ${bb.y.toFixed(1)} ${bb.w.toFixed(1)} ${bb.h.toFixed(1)}"`);
-      } else if (fw > LIMIT.FIT_MAX || fh > LIMIT.FIT_MAX) {
-        // 仅告警：素材若使用 clip-path，几何包围盒无法建模裁剪，硬判会误报
+      } else if (!clipped && (fw > LIMIT.FIT_MAX || fh > LIMIT.FIT_MAX)) {
+        // 仅告警。带 clipPath/mask 的素材直接跳过（见上方 clipped 的说明）
         warn(id, 'viewbox-overflow', `内容几何范围超出 viewBox：${(fw * 100).toFixed(0)}%×${(fh * 100).toFixed(0)}%（可能已被 clip-path 裁切，需人工确认）`);
       }
       const bg = findFullCanvasBg(full, vb);
