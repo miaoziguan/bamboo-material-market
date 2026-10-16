@@ -10,6 +10,17 @@
  *   · 腾云/驾雾串色丢细节   → 内嵌 <style> 用通用类名，多素材同屏时全局串色
  *   · 观系列位图 800px      → 位图分辨率/体积失控（base64 曾达 1999KB）
  *
+ * 2026-10 增补：新增 css() 层检查（paper 皮肤）。背景是修「好好吃饭」时连踩 7 个坑，
+ * 全部位于 css()，而旧规则只作用于 preview / manifest 缩略图，一例都没拦住：
+ *   · 卡片 background:#ffffff      → 白底盖掉设计图，「便签没有背景」
+ *   · .tw-card-head 漏 border:none → 主题默认 2px 下边框变成卡片底部一条灰线
+ *   · 设计图被压成 500px 位图      → 用户一放大就发虚
+ *   · 未定义 ::-webkit-scrollbar   → 吃 Obsidian 默认滚动条，在素净设计上很突兀
+ *   · .tw-card-text 写死 font-size → 掐断字号变量链，A↑A↓ 全程无反应
+ *   · 背景图宽高比与 aspect-ratio 不符 → background-size:100% 100% 拉伸变形
+ * 另有一个反向陷阱：scrollbar-width:none 在新版 Chromium 中会彻底禁用滚动条，
+ * 并使 ::-webkit-scrollbar 规则全部失效（发丝级悬停滚动条会静默失灵）。
+ *
  * 设计原则（照抄插件侧 check:html-escape / check-load-matrix 的「闸门」范式）：
  *   1. 零依赖纯 Node —— CI 直接 node 跑，不需要 npm install；
  *   2. 失败即 exit 1，阻断合并/发布；
@@ -33,7 +44,8 @@ const ALLOW_FILE = path.join(__dirname, 'material-check-allow.json');
 const LIMIT = {
   PREVIEW_MAX_KB: 100,      // 完整 preview（materials/*.js）上限
   THUMB_BITMAP_MAX_KB: 20,  // 位图类素材的 manifest 缩略图上限（矢量类缩略图即其本身，不单独限）
-  BITMAP_MAX_PX: 512,       // 位图长边上限
+  BITMAP_MAX_PX: 512,       // preview 位图长边上限（缩略图场景，大反而浪费）
+  CSS_BITMAP_MIN_PX: 1000,  // paper 背景位图长边下限（背景要铺满卡片，太小则一放大就发虚）
   FIT_MIN: 0.9,             // 内容包围盒占 viewBox 的最小比例（低于此＝留白）
   FIT_MAX: 1.25,            // 内容包围盒占 viewBox 的最大比例（高于此＝内容溢出被裁）
   BG_COVER_MIN: 0.9,        // 视为「铺满背景」的覆盖面积比例
@@ -241,6 +253,54 @@ function findFullCanvasBg(svg, vb) {
   return null;
 }
 
+/* ───────── CSS 规则切分（零依赖，供 css() 层检查用） ─────────
+ * 只处理扁平 CSS（素材 css() 均为扁平规则，无 @media / 无嵌套），
+ * 返回 [{sel, body}]；sel 已压缩空白，便于匹配。 */
+function cssRules(css) {
+  const out = [];
+  const s = String(css).replace(/\/\*[\s\S]*?\*\//g, '');
+  let i = 0;
+  while (i < s.length) {
+    const open = s.indexOf('{', i);
+    if (open < 0) break;
+    let depth = 1, j = open + 1;
+    while (j < s.length && depth > 0) {
+      if (s[j] === '{') depth++;
+      else if (s[j] === '}') depth--;
+      j++;
+    }
+    const close = j - 1;
+    if (depth !== 0) break;
+    out.push({
+      sel: s.slice(i, open).trim().replace(/\s+/g, ' '),
+      body: s.slice(open + 1, close),
+    });
+    i = close + 1;
+  }
+  return out;
+}
+const decl = (body, prop) => {
+  const m = body.match(new RegExp('(?:^|;)\\s*' + prop + '\\s*:\\s*([^;]+)'));
+  return m ? m[1].trim() : null;
+};
+
+/* 从 css() 里取出背景图的 SVG（兼容 base64 与 charset=utf-8 两种编码） */
+function extractCssSvg(css) {
+  let m = css.match(/data:image\/svg\+xml;base64,([A-Za-z0-9+/=]+)/);
+  if (m) { try { return Buffer.from(m[1], 'base64').toString('utf8'); } catch (e) { return null; } }
+  m = css.match(/data:image\/svg\+xml;charset=utf-8,([^"')]+)/);
+  if (m) { try { return decodeURIComponent(m[1]); } catch (e) { return null; } }
+  return null;
+}
+/* 取出 css() 背景位图的 Buffer（SVG 内嵌或直接 data:） */
+function extractCssBitmap(css, svg) {
+  const pick = (s) => {
+    const b = s && s.match(/data:image\/(?:png|jpeg|jpg|webp);base64,([A-Za-z0-9+/=]+)/i);
+    return b ? Buffer.from(b[1], 'base64') : null;
+  };
+  return pick(svg) || pick(css);
+}
+
 /* ───────── 主流程 ───────── */
 const allow = fs.existsSync(ALLOW_FILE) ? JSON.parse(fs.readFileSync(ALLOW_FILE, 'utf8')) : {};
 const allowed = (id, rule) => !!(allow[id] && allow[id].includes(rule));
@@ -341,6 +401,134 @@ for (const m of list) {
       }
       const bg = findFullCanvasBg(full, vb);
       if (bg) fail(id, 'no-bg-rect', `存在铺满画布的不透明背景 rect（${bg.w}×${bg.h} fill=${bg.fill}）`);
+    }
+  }
+
+  /* ───────── paper 专属：css() 层检查 ─────────
+   * 2026-10 修「好好吃饭」时连踩 7 个坑，全部位于 css()，而旧闸门只查 preview
+   * （checkStruct 仅作用于 preview / manifest 缩略图），一例都没拦住。
+   * 此处把每一条固化为规则，注释写明对应的事故。 */
+  if (m.type === 'paper') {
+    const cssRaw = typeof material.css === 'function' ? material.css() : '';
+    if (!cssRaw || !cssRaw.trim()) {
+      fail(id, 'css-missing', 'type=paper 但缺少 css()——便签的设计图、文字区、滚动条全在这里');
+    } else {
+      // 先剥掉 CSS 注释再跑正则——模板/素材的注释里常提到 scrollbar-width:none 等字样，会误判
+      const css = cssRaw.replace(/\/\*[\s\S]*?\*\//g, '');
+      const R = cssRules(css);
+      const norm = (s) => s.replace(/\s+/g, '');
+      const bySel = (re) => R.find(r => re.test(norm(r.sel)));
+
+      // 卡片主规则
+      const card = bySel(/^\.tw-card\[data-paper=[^\]]*\]$/);
+      if (!card) {
+        fail(id, 'css-card-rule', '缺少 .tw-card[data-paper="<id>"] 卡片规则（aspect-ratio / 纸纹变量都挂在它身上）');
+      } else {
+        // ① 事故：好好吃饭曾写 background:#ffffff，白底+白面板融为一体 → 「便签没有背景」
+        // 仅拦截「显式写成不透明」；未声明则继承主题默认（梦珑系列即如此），不算问题
+        const bg = decl(card.body, 'background');
+        if (bg && !/^(transparent|var\(--rice-paper\)|none)$/i.test(bg)) {
+          fail(id, 'css-bg-opaque', `卡片 background 应为 transparent（背景交给设计图），当前为 ${bg}`);
+        }
+        // ② 纸纹取值键缺失会让标题墨色/分隔线退回主题默认值
+        for (const v of ['--ink-dark', '--tw-rule-rgb']) {
+          if (!card.body.includes(v)) fail(id, 'css-ink-vars', `卡片规则缺少 ${v}（主题墨色/分隔线取值键，见 README「纸纹取值键」）`);
+        }
+      }
+
+      // ③ 事故：主题 .tw-card-head 默认带 border-bottom:2px solid rgba(var(--tw-rule-rgb),.14)，
+      //    paper 规则特异性 (0,3,0) 高于基础 (0,1,0)，不显式 border:none 就会在卡片底部多出一条灰线
+      const head = bySel(/\.tw-card-head\{?$/);
+      if (!head) fail(id, 'css-head-rule', '缺少 .tw-card-head 规则');
+      else if (!/(?:^|;)\s*border\s*:\s*none/i.test(head.body)) {
+        fail(id, 'css-head-border', '.tw-card-head 未设置 border:none——主题默认的 2px 下边框会变成卡片底部一条灰线');
+      }
+
+      // ④ 齿边/噪点元素不隐藏会带来主题默认装饰
+      for (const part of ['edge', 'noise']) {
+        const r = R.find(x => norm(x.sel).includes('.tw-card-' + part) && /display\s*:\s*none/.test(x.body));
+        if (!r) fail(id, 'css-edge-noise', `未隐藏 .tw-card-${part}（应加 display:none，对齐可用皮肤模板）`);
+      }
+
+      // ⑤ 事故：好好吃饭在 paper 规则里写死 font-size:0.9em，掐断
+      //    A↑A↓ → --tw-text-zoom → --tw-fs-base → .tw-card-text 的变量链，字号调节全程无反应
+      const text = bySel(/\.tw-card-text\{?$/);
+      if (!text) fail(id, 'css-text-rule', '缺少 .tw-card-text 规则（文字编辑区）');
+      else {
+        if (decl(text.body, 'font-size')) {
+          fail(id, 'css-text-font-size', '.tw-card-text 禁止写 font-size——主题靠 var(--tw-fs-base) 联动字号按钮，paper 规则特异性更高，写死即使字号 ± 失效');
+        }
+        if (!/overflow\s*:\s*auto/.test(text.body)) {
+          fail(id, 'css-text-overflow', '.tw-card-text 需要 overflow:auto，否则内容溢出后无法滚动查看');
+        }
+      }
+
+      // ⑥ 事故：未定义滚动条样式时吃 Obsidian/Electron 默认滚动条（宽、取强调色、通栏），在素净设计上很突兀
+      if (!/::-webkit-scrollbar/.test(css)) {
+        fail(id, 'css-scrollbar', '未定义 ::-webkit-scrollbar——会显示 Obsidian 默认滚动条；请套用模板里的发丝级悬停滚动条');
+      }
+      // 陷阱：新版 Chromium 中 scrollbar-width:none 会彻底禁用滚动条，并使 ::-webkit-scrollbar 规则全部失效
+      if (/scrollbar-width\s*:\s*none/.test(css)) {
+        fail(id, 'css-scrollbar-width', '不要用 scrollbar-width:none——Chromium 会连带禁用 ::-webkit-scrollbar，发丝级悬停滚动条将失效');
+      }
+
+      // ⑦ 背景图体检（旧闸门完全不看这里）
+      const svg = extractCssSvg(css);
+      if (svg) {
+        for (const [re, rule, msg] of [
+          [/<script/i, 'no-script', 'css() 背景图含 <script>'],
+          [/\son[a-z]+\s*=/i, 'no-event-attr', 'css() 背景图含事件属性'],
+          [/javascript:/i, 'no-javascript-url', 'css() 背景图含 javascript: 协议'],
+        ]) if (re.test(svg)) fail(id, rule, msg);
+        for (const mm of svg.matchAll(/(?:src|href|xlink:href)\s*=\s*["']([^"']+)["']/g)) {
+          if (/https?:\/\//i.test(mm[1])) fail(id, 'no-external', `css() 背景图引用外部资源: ${mm[1].slice(0, 60)}`);
+        }
+        // 事故：梦珑香梨的整张设计被栅格成一张 400px 位图塞进 SVG，放大即整体发虚。
+        // 只在位图「铺满设计」时才告警——小面积装饰件（如梦珑星光/樱桃等约占 50%）是合法设计选择
+        const imgM = svg.match(/<image\b[^>]*>/i);
+        if (imgM) {
+          const vb2 = (svg.match(/viewBox\s*=\s*["']\s*[\d.-]+\s+[\d.-]+\s+([\d.]+)\s+([\d.]+)/) || []).slice(1);
+          const g = (re) => { const mm = imgM[0].match(re); return mm ? +mm[1] : null; };
+          const iw = g(/\bwidth\s*=\s*"([\d.]+)"/), ih = g(/\bheight\s*=\s*"([\d.]+)"/);
+          if (vb2.length === 2 && iw && ih) {
+            const cover = (iw * ih) / (+vb2[0] * +vb2[1]);
+            if (cover >= 0.9) {
+              warn(id, 'css-bitmap-in-svg', `背景 SVG 被一张 ${iw}x${ih} 位图铺满（占画布 ${(cover * 100).toFixed(0)}%）——整张设计已被栅格化，放大必虚；请找回矢量原稿`);
+            }
+          }
+        }
+      }
+      const bmp = extractCssBitmap(css, svg);
+      if (bmp && bmp.length > 8) {
+        const sig = bmp.slice(1, 4).toString('latin1');
+        if (sig === 'PNG') {
+          const bw = bmp.readUInt32BE(16), bh = bmp.readUInt32BE(20);
+          // 事故：好好吃饭曾把设计图下采样到 500px 宽，用户一放大就发虚
+          if (Math.max(bw, bh) < LIMIT.CSS_BITMAP_MIN_PX) {
+            warn(id, 'css-bitmap-small', `背景位图仅 ${bw}x${bh}（长边 < ${LIMIT.CSS_BITMAP_MIN_PX}px）——放大易发虚，建议改用矢量 SVG 或提高位图分辨率`);
+          }
+          // 形变：background-size:100% 100% 会强行拉伸，宽高比不符就变形
+          if (card) {
+            const ar = (card.body.match(/aspect-ratio\s*:\s*([\d.]+)\s*\/\s*([\d.]+)/) || []).slice(1);
+            if (ar.length === 2) {
+              const want = +ar[0] / +ar[1], got = bw / bh;
+              if (Math.abs(want - got) / want > 0.01) {
+                fail(id, 'css-viewbox-aspect', `背景位图宽高比 ${got.toFixed(4)} 与 aspect-ratio ${want.toFixed(4)} 偏差 >1%，background-size:100% 100% 会拉伸变形`);
+              }
+            }
+          }
+        }
+      }
+      if (svg && card) {
+        const vb = (svg.match(/viewBox\s*=\s*["']\s*[\d.-]+\s+[\d.-]+\s+([\d.]+)\s+([\d.]+)/) || []).slice(1);
+        const ar = (card.body.match(/aspect-ratio\s*:\s*([\d.]+)\s*\/\s*([\d.]+)/) || []).slice(1);
+        if (vb.length === 2 && ar.length === 2) {
+          const want = +ar[0] / +ar[1], got = +vb[0] / +vb[1];
+          if (Math.abs(want - got) / want > 0.01) {
+            fail(id, 'css-viewbox-aspect', `背景 SVG viewBox 宽高比 ${got.toFixed(4)} 与 aspect-ratio ${want.toFixed(4)} 偏差 >1%，background-size:100% 100% 会拉伸变形`);
+          }
+        }
+      }
     }
   }
 

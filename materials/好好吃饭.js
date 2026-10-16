@@ -68,6 +68,9 @@ window.__bamboo_material_好好吃饭 = (function () {
         border:none;
         aspect-ratio: 1291.872 / 1741.97;
         --rice-paper:transparent;
+        --ink-dark:#1a1a1a;
+        --ink-pale:#8c857c;
+        --tw-rule-rgb:140,133,124;
         --edge-distort:0;
         --noise:0;
       }

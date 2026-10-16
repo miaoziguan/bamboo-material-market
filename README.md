@@ -78,9 +78,16 @@ window.__bamboo_material_我的素材 = material;
 
 ## 新增素材
 
+0. **paper 皮肤先复制模板**：`cp materials/_template.paper.js materials/你的皮肤名.js`。模板已把所有坑一次填对（含逐条注释说明为什么），比从零写或抄旧文件可靠得多。
 1. 把素材 `.js` 放进 `materials/`，确保文件顶部含版权声明、并导出 `window.__bamboo_material_<id>`。
 2. 在 `manifest.json` 的 `materials` 数组追加一条，填好 `id` / `name` / `type` / `author` / `license` / `version` / `url`（指向本仓库 raw 地址）。
 3. 提交并推送到 `main` 分支，**CI 会自动跑「素材发布闸门」**，插件侧即可在「素材市场」中看到并一键下载。
+
+> 设计稿嵌入 `css()` 的命令（二选一，推荐 base64，无转义陷阱）：
+> ```bash
+> node -e 'console.log("data:image/svg+xml;base64,"+require("fs").readFileSync("design.svg").toString("base64"))'
+> node -e 'console.log("data:image/png;base64,"+require("fs").readFileSync("design.png").toString("base64"))'
+> ```
 
 ## 素材发布闸门（发布前门禁）
 
@@ -105,6 +112,17 @@ npm run check:report   # 附带全量体检报告（体积 / 位图尺寸 / 内�
 | `no-script` / `no-event-attr` / `no-javascript-url` | 内嵌脚本或事件属性（运行时安全风险） |
 | `no-external` | 引用外部资源（破坏离线 / 隐私） |
 | `size-budget` / `thumb-budget` | preview 或 manifest 缩略图超体积预算 |
+| `css-missing` | type=paper 却缺少 `css()` |
+| `css-bg-opaque` | 卡片 `background` 被写死不透明色，盖掉设计图（好好吃饭「便签没有背景」事故） |
+| `css-card-rule` | 缺少 `.tw-card[data-paper="<id>"]` 卡片规则 |
+| `css-ink-vars` | 卡片规则缺少 `--ink-dark` / `--tw-rule-rgb` 墨色取值键 |
+| `css-head-rule` / `css-head-border` | 缺少 `.tw-card-head` 规则 / 未 `border:none`（主题默认 2px 下边框会变成卡片底部一条灰线） |
+| `css-edge-noise` | 未 `display:none` 隐藏 `.tw-card-edge` / `.tw-card-noise` |
+| `css-text-rule` / `css-text-font-size` / `css-text-overflow` | 缺文字区规则 / 写死 `font-size`（字号 ± 失效）/ 未开 `overflow:auto` |
+| `css-scrollbar` / `css-scrollbar-width` | 未定义 `::-webkit-scrollbar`（吃默认滚动条）/ 误用 `scrollbar-width:none`（Chromium 会连带禁用 `::-webkit-scrollbar`） |
+| `css-viewbox-aspect` | 背景图宽高比与 `aspect-ratio` 偏差 >1%，`background-size:100% 100%` 会拉伸变形 |
+| `css-bitmap-small`（告警） | paper 背景位图长边 < 1000px，一放大就发虚 |
+| `css-bitmap-in-svg`（告警） | 背景 SVG 被单张位图铺满，整张设计已被栅格化 |
 
 > 内容「溢出」方向（`viewbox-overflow`）仅告警不阻断：素材常借助 `clip-path` 裁切，几何包围盒无法建模裁剪，硬判会误报。
 
@@ -116,3 +134,16 @@ npm run check:report   # 附带全量体检报告（体积 / 位图尺寸 / 内�
 4. **位图分辨率 ≤512px、单 preview ≤100KB**（位图类素材的 manifest 缩略图应 ≤20KB）。
 5. **不要铺满画布的不透明背景 `<rect>`**（除非那真是素材的一部分），**不要 `<script>` / 外链**。
 6. **根 `<svg>` 必须自带尺寸**：写 `width="100%" height="100%"`（或 `style="width:100%;height:100%;display:block"`）。缩略图容器（96×96）与画布都靠它填满；一旦缺失，浏览器会退回固有尺寸（= viewBox 像素）导致**预览放大错位/被裁**。注意 svgo 的 `removeUnknownsAndDefaults` 会把它当根元素默认值删掉——压缩/优化素材后务必复查这一项。
+
+### paper 皮肤专属红线（`css()` 层，2026-10 修「好好吃饭」时连踩 7 坑后固化）
+
+> 旧闸门只检查 `preview` 与 manifest 缩略图，**从来没看过 `css()`**，而 paper 皮肤的风险全在这里。现在这些都已变成闸门规则，但理解原因比背规则重要。
+
+7. **设计稿优先交付矢量 SVG**。位图长边建议 ≥1600px——低于此值用户一放大就发虚（好好吃饭曾压到 500px、梦珑香梨曾整张被栅格成 400px，双双被投诉）。矢量无限清晰且通常更小。若来源只有位图，**务必问作者要矢量原稿**，不要自己插值放大充数。
+8. **卡片 `background` 必须 `transparent`**（或不写）。写死不透明色会把整张卡打成实色底、盖掉设计图——好好吃饭曾因 `background:#ffffff` 看起来「没有背景」。
+9. **`.tw-card-head` 必须显式 `border:none`**。主题默认给它 `border-bottom:2px solid rgba(var(--tw-rule-rgb),.14)`，而 paper 规则特异性 (0,3,0) 高于基础 (0,1,0)，不显式清除就会在卡片底部多出一条灰线。
+10. **`.tw-card-edge` / `.tw-card-noise` 必须 `display:none`**，否则带上主题默认的齿边与噪点。
+11. **`.tw-card-text` 禁止写 `font-size`**。主题字号链路是 `A↑A↓ → --tw-text-zoom → --tw-fs-base → .tw-card-text{font-size:var(--tw-fs-base)}`；paper 规则特异性更高，一写死就掐断链路，字号按钮全程无反应。
+12. **滚动条用「发丝级悬停」四联**（3px 窄轨 + 透明轨道 + 默认隐形滑块 + 悬停才显 `rgba(35,24,21,0.12)`）。**不要用 `scrollbar-width:none`**——新版 Chromium 会彻底禁用滚动条，并让 `::-webkit-scrollbar` 规则全部失效。
+13. **背景图宽高比必须与 `aspect-ratio` 一致**。`background-size:100% 100%` 是强行拉伸，差超过 1% 就能看出变形。
+14. **文字编辑区用百分比量准**。`top/left/right/bottom` 定义用户可输入文字的范围，超出手绘便签的写字区会压到标题或边框。
