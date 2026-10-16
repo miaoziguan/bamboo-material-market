@@ -79,6 +79,10 @@ window.__bamboo_material_我的素材 = material;
 ## 新增素材
 
 0. **paper 皮肤先复制模板**：`cp materials/_template.paper.js materials/你的皮肤名.js`。模板已把所有坑一次填对（含逐条注释说明为什么），比从零写或抄旧文件可靠得多。
+   或者更省事——直接用生成器一条命令搞定（自动规范化设计稿、填模板、追加 manifest、跑闸门）：
+   ```bash
+   node scripts/new-paper.js 你的皮肤名 design.svg --top 35% --left 18.5% --right 18.5% --bottom 15%
+   ```
 1. 把素材 `.js` 放进 `materials/`，确保文件顶部含版权声明、并导出 `window.__bamboo_material_<id>`。
 2. 在 `manifest.json` 的 `materials` 数组追加一条，填好 `id` / `name` / `type` / `author` / `license` / `version` / `url`（指向本仓库 raw 地址）。
 3. 提交并推送到 `main` 分支，**CI 会自动跑「素材发布闸门」**，插件侧即可在「素材市场」中看到并一键下载。
@@ -147,3 +151,34 @@ npm run check:report   # 附带全量体检报告（体积 / 位图尺寸 / 内�
 12. **滚动条用「发丝级悬停」四联**（3px 窄轨 + 透明轨道 + 默认隐形滑块 + 悬停才显 `rgba(35,24,21,0.12)`）。**不要用 `scrollbar-width:none`**——新版 Chromium 会彻底禁用滚动条，并让 `::-webkit-scrollbar` 规则全部失效。
 13. **背景图宽高比必须与 `aspect-ratio` 一致**。`background-size:100% 100%` 是强行拉伸，差超过 1% 就能看出变形。
 14. **文字编辑区用百分比量准**。`top/left/right/bottom` 定义用户可输入文字的范围，超出手绘便签的写字区会压到标题或边框。
+
+---
+
+## 开发工具
+
+两个零依赖 Node 脚本（`scripts/` 下），CI 无需安装任何东西。
+
+### `scripts/new-paper.js` — paper 皮肤生成器
+
+一条命令从设计稿生成完全合规的素材：
+
+```bash
+node scripts/new-paper.js <名字> <设计稿.svg|png> [选项]
+# 选项：--top/--left/--right/--bottom（文字区百分比）
+#       --ink-dark/--ink-pale/--rule（墨色）
+#       --series/--desc/--author（manifest 字段）
+#       --force 覆盖  --no-gate 跳过闸门
+```
+
+自动做四件事：规范化设计稿（`class=`→内联 `fill`、补根尺寸、去 XML 声明）、按模板填值（`aspect-ratio` 从 viewBox 自动推算）、追加 manifest 条目、跑闸门。模板即 `materials/_template.paper.js`——**改模板即改生成器产出**，不另存一份 CSS 真值。
+
+### `scripts/calibrate-text-area.js` — 文字区可视化标定
+
+解决「4 个百分比靠手算」：生成一个自包含 HTML 预览页，设计图上叠一个可拖拽/可缩放的框，实时输出 `top/left/right/bottom` 和一键复制的 CSS。
+
+```bash
+node scripts/calibrate-text-area.js <设计稿.svg> [out.html]   # 从设计稿标定
+node scripts/calibrate-text-area.js --material 好好吃饭        # 从已上架素材标定
+```
+
+用浏览器打开生成的 HTML：拖红框移动、拖 8 个圆点缩放、方向键微调（先点一下红框）、数值按 0.5% 对齐，右侧实时给出可粘贴的 `.tw-card-text` 规则。

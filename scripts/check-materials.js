@@ -288,7 +288,7 @@ const decl = (body, prop) => {
 function extractCssSvg(css) {
   let m = css.match(/data:image\/svg\+xml;base64,([A-Za-z0-9+/=]+)/);
   if (m) { try { return Buffer.from(m[1], 'base64').toString('utf8'); } catch (e) { return null; } }
-  m = css.match(/data:image\/svg\+xml;charset=utf-8,([^"')]+)/);
+  m = css.match(/data:image\/svg\+xml;charset=utf-8,([^"']+)/);
   if (m) { try { return decodeURIComponent(m[1]); } catch (e) { return null; } }
   return null;
 }
@@ -475,6 +475,10 @@ for (const m of list) {
       // ⑦ 背景图体检（旧闸门完全不看这里）
       const svg = extractCssSvg(css);
       if (svg) {
+        // 防护：提取不完整会让下面所有检查静默失效（曾因正则字符类含 ) 截断过 URL 编码 SVG）
+        if (!/<\/svg>\s*$/.test(svg)) {
+          warn(id, "css-svg-extract", "背景 SVG 提取不完整（缺 </svg>）——闸门对该图的检查可能漏判，请检查 extractCssSvg");
+        }
         for (const [re, rule, msg] of [
           [/<script/i, 'no-script', 'css() 背景图含 <script>'],
           [/\son[a-z]+\s*=/i, 'no-event-attr', 'css() 背景图含事件属性'],
@@ -500,20 +504,23 @@ for (const m of list) {
       }
       const bmp = extractCssBitmap(css, svg);
       if (bmp && bmp.length > 8) {
-        const sig = bmp.slice(1, 4).toString('latin1');
-        if (sig === 'PNG') {
+        const sig = bmp.slice(1, 4).toString("latin1");
+        if (sig === "PNG") {
           const bw = bmp.readUInt32BE(16), bh = bmp.readUInt32BE(20);
           // 事故：好好吃饭曾把设计图下采样到 500px 宽，用户一放大就发虚
           if (Math.max(bw, bh) < LIMIT.CSS_BITMAP_MIN_PX) {
-            warn(id, 'css-bitmap-small', `背景位图仅 ${bw}x${bh}（长边 < ${LIMIT.CSS_BITMAP_MIN_PX}px）——放大易发虚，建议改用矢量 SVG 或提高位图分辨率`);
+            const where = svg ? "设计内嵌位图（装饰件）" : "背景位图";
+            warn(id, "css-bitmap-small", `${where}仅 ${bw}x${bh}（长边 < ${LIMIT.CSS_BITMAP_MIN_PX}px）——放大时会虚，建议改用矢量或提高位图分辨率`);
           }
-          // 形变：background-size:100% 100% 会强行拉伸，宽高比不符就变形
-          if (card) {
+          // 形变检查【仅用于位图直接当背景】的情况。
+          // 若背景是 SVG、位图只是其中的装饰件（如梦珑星光/樱桃/竹叶/红花），
+          // 该位图按设计坐标摆放，宽高比与卡片比例本就无关，不能拿来比——否则误报。
+          if (!svg && card) {
             const ar = (card.body.match(/aspect-ratio\s*:\s*([\d.]+)\s*\/\s*([\d.]+)/) || []).slice(1);
             if (ar.length === 2) {
               const want = +ar[0] / +ar[1], got = bw / bh;
               if (Math.abs(want - got) / want > 0.01) {
-                fail(id, 'css-viewbox-aspect', `背景位图宽高比 ${got.toFixed(4)} 与 aspect-ratio ${want.toFixed(4)} 偏差 >1%，background-size:100% 100% 会拉伸变形`);
+                fail(id, "css-viewbox-aspect", `背景位图宽高比 ${got.toFixed(4)} 与 aspect-ratio ${want.toFixed(4)} 偏差 >1%，background-size:100% 100% 会拉伸变形`);
               }
             }
           }
