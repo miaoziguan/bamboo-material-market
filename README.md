@@ -102,7 +102,7 @@ npm run check          # 闸门模式，有失败则退出码 1
 npm run check:report   # 附带全量体检报告（体积 / 位图尺寸 / 内容占比 / viewBox）
 ```
 
-脚本零依赖（仅用 Node 内置模块），CI 无需 `npm install`。如需豁免某条规则，登记到 `scripts/material-check-allow.json`（**当前为零豁免**——优先改素材本身）。
+脚本零依赖（仅用 Node 内置模块），CI 无需 `npm install`。如需豁免某条规则，登记到 `scripts/material-check-allow.json`（**当前 4 处豁免**，均为梦珑星光/樱桃/竹叶/红花的 `css-bitmap-small`——那几张 262~304px 位图是刻意高斯柔化的光晕装饰件，实测放大 3 倍渲染差异仅 0.10/255 而体积 +1422%，提高分辨率无收益。理由已写入该文件，能改素材时优先改素材）。
 
 ### 闸门拦截的事故类型
 
