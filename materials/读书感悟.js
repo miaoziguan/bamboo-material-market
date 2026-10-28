@@ -1,6 +1,8 @@
 // 文件名: 读书感悟.js  →  全局变量: __bamboo_material_读书感悟
 // 版权：竹林用户专享 · 未经授权禁止使用（含个人使用）© 2026 羽鳞君 保留所有权利
 // 系列：生活渐变（纯矢量导出：渐变以 SVG linearGradient 承载，无内嵌位图）
+// 文字区已内收：白区边界约 left13%/right5%/top3%/bottom4%，文字区留 8%/20%/9%/8%，
+// 左侧多留 7%（相对白区左缘）以拉开与竖排标签的距离。
 
 const material = {
   type: 'paper',
@@ -33,7 +35,7 @@ const material = {
         position:absolute; inset:0; border:none; padding:0; margin:0; z-index:1;
       }
       .tw-card[data-paper="读书感悟"] .tw-card-text{
-        position:absolute; top:6%; left:17%; right:7%; bottom:6%;
+        position:absolute; top:8%; left:20%; right:9%; bottom:8%;
         color:#1f3b4a; text-align:left; z-index:2; overflow:auto;
       }
       .tw-card[data-paper="读书感悟"] .tw-card-text::-webkit-scrollbar{width:3px;height:3px;}
