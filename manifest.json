@@ -636,44 +636,44 @@
       "name": "灵光一闪",
       "type": "paper",
       "author": "羽鳞君",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "生活渐变 · 灵光一闪 便签皮肤(paper)，纸面为整幅设计插画(含背景)。",
       "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/灵光一闪.js",
       "series": "生活渐变",
-      "preview": "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 312 401\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"46\" y=\"14\" width=\"254\" height=\"374\" rx=\"18\" fill=\"#fffef5\" stroke=\"#FBB64A\" stroke-width=\"3\"/><rect x=\"8\" y=\"26\" width=\"40\" height=\"146\" rx=\"10\" fill=\"#FBB64A\"/><text x=\"30\" y=\"78\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">灵</text><text x=\"30\" y=\"108\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">光</text><text x=\"30\" y=\"138\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">一</text><text x=\"30\" y=\"168\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">闪</text></svg>"
+      "preview": "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 312 401\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"46\" y=\"14\" width=\"254\" height=\"374\" rx=\"18\" fill=\"#fffef5\" stroke=\"#fbb03b\" stroke-width=\"3\"/><rect x=\"8\" y=\"26\" width=\"40\" height=\"146\" rx=\"10\" fill=\"#fbb03b\"/><text x=\"30\" y=\"78\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">灵</text><text x=\"30\" y=\"108\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">光</text><text x=\"30\" y=\"138\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">一</text><text x=\"30\" y=\"168\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">闪</text></svg>"
     },
     {
       "id": "生活随记",
       "name": "生活随记",
       "type": "paper",
       "author": "羽鳞君",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "生活渐变 · 生活随记 便签皮肤(paper)，纸面为整幅设计插画(含背景)。",
       "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/生活随记.js",
       "series": "生活渐变",
-      "preview": "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 312 401\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"46\" y=\"14\" width=\"254\" height=\"374\" rx=\"18\" fill=\"#fffef5\" stroke=\"#FF9292\" stroke-width=\"3\"/><rect x=\"8\" y=\"26\" width=\"40\" height=\"146\" rx=\"10\" fill=\"#FF9292\"/><text x=\"30\" y=\"78\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">生</text><text x=\"30\" y=\"108\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">活</text><text x=\"30\" y=\"138\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">随</text><text x=\"30\" y=\"168\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">记</text></svg>"
+      "preview": "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 312 401\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"46\" y=\"14\" width=\"254\" height=\"374\" rx=\"18\" fill=\"#fffef5\" stroke=\"#ff8989\" stroke-width=\"3\"/><rect x=\"8\" y=\"26\" width=\"40\" height=\"146\" rx=\"10\" fill=\"#ff8989\"/><text x=\"30\" y=\"78\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">生</text><text x=\"30\" y=\"108\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">活</text><text x=\"30\" y=\"138\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">随</text><text x=\"30\" y=\"168\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">记</text></svg>"
     },
     {
       "id": "读书感悟",
       "name": "读书感悟",
       "type": "paper",
       "author": "羽鳞君",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "生活渐变 · 读书感悟 便签皮肤(paper)，纸面为整幅设计插画(含背景)。",
       "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/读书感悟.js",
       "series": "生活渐变",
-      "preview": "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 312 401\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"46\" y=\"14\" width=\"254\" height=\"374\" rx=\"18\" fill=\"#fffef5\" stroke=\"#39B1E4\" stroke-width=\"3\"/><rect x=\"8\" y=\"26\" width=\"40\" height=\"146\" rx=\"10\" fill=\"#39B1E4\"/><text x=\"30\" y=\"78\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">读</text><text x=\"30\" y=\"108\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">书</text><text x=\"30\" y=\"138\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">感</text><text x=\"30\" y=\"168\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">悟</text></svg>"
+      "preview": "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 312 401\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"46\" y=\"14\" width=\"254\" height=\"374\" rx=\"18\" fill=\"#fffef5\" stroke=\"#29abe2\" stroke-width=\"3\"/><rect x=\"8\" y=\"26\" width=\"40\" height=\"146\" rx=\"10\" fill=\"#29abe2\"/><text x=\"30\" y=\"78\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">读</text><text x=\"30\" y=\"108\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">书</text><text x=\"30\" y=\"138\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">感</text><text x=\"30\" y=\"168\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">悟</text></svg>"
     },
     {
       "id": "心得体会",
       "name": "心得体会",
       "type": "paper",
       "author": "羽鳞君",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "生活渐变 · 心得体会 便签皮肤(paper)，纸面为整幅设计插画(含背景)。",
       "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/心得体会.js",
       "series": "生活渐变",
-      "preview": "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 312 401\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"46\" y=\"14\" width=\"254\" height=\"374\" rx=\"18\" fill=\"#fffef5\" stroke=\"#95CA4E\" stroke-width=\"3\"/><rect x=\"8\" y=\"26\" width=\"40\" height=\"146\" rx=\"10\" fill=\"#95CA4E\"/><text x=\"30\" y=\"78\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">心</text><text x=\"30\" y=\"108\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">得</text><text x=\"30\" y=\"138\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">体</text><text x=\"30\" y=\"168\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">会</text></svg>"
+      "preview": "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 312 401\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"46\" y=\"14\" width=\"254\" height=\"374\" rx=\"18\" fill=\"#fffef5\" stroke=\"#8cc63f\" stroke-width=\"3\"/><rect x=\"8\" y=\"26\" width=\"40\" height=\"146\" rx=\"10\" fill=\"#8cc63f\"/><text x=\"30\" y=\"78\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">心</text><text x=\"30\" y=\"108\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">得</text><text x=\"30\" y=\"138\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">体</text><text x=\"30\" y=\"168\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">会</text></svg>"
     }
   ]
 }
