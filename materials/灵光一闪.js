@@ -36,7 +36,7 @@ const material = {
       }
       .tw-card[data-paper="灵光一闪"] .tw-card-text{
         position:absolute; top:8%; left:20%; right:9%; bottom:8%;
-        color:#2b2b2b; text-align:left; z-index:2; overflow:auto;
+        color:#2b2b2b; z-index:2; overflow:auto;
       }
       .tw-card[data-paper="灵光一闪"] .tw-card-text::-webkit-scrollbar{width:3px;height:3px;}
       .tw-card[data-paper="灵光一闪"] .tw-card-text::-webkit-scrollbar-track{background:transparent;}

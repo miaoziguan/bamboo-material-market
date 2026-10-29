@@ -36,7 +36,7 @@ const material = {
       }
       .tw-card[data-paper="读书感悟"] .tw-card-text{
         position:absolute; top:8%; left:20%; right:9%; bottom:8%;
-        color:#1f3b4a; text-align:left; z-index:2; overflow:auto;
+        color:#1f3b4a; z-index:2; overflow:auto;
       }
       .tw-card[data-paper="读书感悟"] .tw-card-text::-webkit-scrollbar{width:3px;height:3px;}
       .tw-card[data-paper="读书感悟"] .tw-card-text::-webkit-scrollbar-track{background:transparent;}

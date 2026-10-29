@@ -92,7 +92,9 @@ const material = {
          paper 规则特异性更高，写死即使字号调节失效。 */
       .tw-card[data-paper="你的皮肤名"] .tw-card-text{
         position:absolute; top:35%; left:18.5%; right:18.5%; bottom:15%;
-        color:#1a1a1a; text-align:center; z-index:2; overflow:auto;
+        color:#1a1a1a; z-index:2; overflow:auto;
+        /* 不要写 text-align：全局 .tw-card-text 已设 justify（两端对齐），
+           皮肤规则特异性更高，写死 left/center 会顶掉它 —— 生活渐变四款就是这样踩的。 */
       }
       /* ── 发丝级悬停滚动条 ──
          默认完全隐形（轨道与滑块皆透明），鼠标悬停卡片时才浮现 3px 淡墨滑块。
