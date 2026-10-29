@@ -674,6 +674,28 @@
       "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/心得体会.js",
       "series": "生活渐变",
       "preview": "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 312 401\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"46\" y=\"14\" width=\"254\" height=\"374\" rx=\"18\" fill=\"#fffef5\" stroke=\"#8cc63f\" stroke-width=\"3\"/><rect x=\"8\" y=\"26\" width=\"40\" height=\"146\" rx=\"10\" fill=\"#8cc63f\"/><text x=\"30\" y=\"78\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">心</text><text x=\"30\" y=\"108\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">得</text><text x=\"30\" y=\"138\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">体</text><text x=\"30\" y=\"168\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">会</text></svg>"
+    },
+    {
+      "id": "经验笔记",
+      "name": "经验笔记",
+      "type": "paper",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "生活渐变 · 经验笔记 便签皮肤(paper)，纸面为整幅设计插画(含背景)。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/经验笔记.js",
+      "series": "生活渐变",
+      "preview": "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 312 401\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"46\" y=\"14\" width=\"254\" height=\"374\" rx=\"18\" fill=\"#fffef5\" stroke=\"#3be0d3\" stroke-width=\"3\"/><rect x=\"8\" y=\"26\" width=\"40\" height=\"146\" rx=\"10\" fill=\"#3be0d3\"/><text x=\"30\" y=\"78\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">经</text><text x=\"30\" y=\"108\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">验</text><text x=\"30\" y=\"138\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">笔</text><text x=\"30\" y=\"168\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">记</text></svg>"
+    },
+    {
+      "id": "旅行游记",
+      "name": "旅行游记",
+      "type": "paper",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "生活渐变 · 旅行游记 便签皮肤(paper)，纸面为整幅设计插画(含背景)。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/旅行游记.js",
+      "series": "生活渐变",
+      "preview": "<svg width=\"100%\" height=\"100%\" viewBox=\"0 0 312 401\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"46\" y=\"14\" width=\"254\" height=\"374\" rx=\"18\" fill=\"#fffef5\" stroke=\"#ee73e7\" stroke-width=\"3\"/><rect x=\"8\" y=\"26\" width=\"40\" height=\"146\" rx=\"10\" fill=\"#ee73e7\"/><text x=\"30\" y=\"78\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">旅</text><text x=\"30\" y=\"108\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">行</text><text x=\"30\" y=\"138\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">游</text><text x=\"30\" y=\"168\" font-size=\"19\" fill=\"#ffffff\" font-family=\"sans-serif\" text-anchor=\"middle\">记</text></svg>"
     }
   ]
 }
