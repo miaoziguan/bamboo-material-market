@@ -34,8 +34,11 @@ const material = {
       .tw-card[data-paper="生活随记"] .tw-card-head{
         position:absolute; inset:0; border:none; padding:0; margin:0; z-index:1;
       }
+      /* 文字区左右必须等距：白区在卡片坐标里左 12.46% / 右 4.92%，
+         故 left-right 之差须恒为 7.54（19% 与 11.5% → 6.54% vs 6.58%）。
+         上下对称（白区上下各 3.83%，文字各 8% → 4.17%）。 */
       .tw-card[data-paper="生活随记"] .tw-card-text{
-        position:absolute; top:8%; left:20%; right:9%; bottom:8%;
+        position:absolute; top:8%; left:19%; right:11.5%; bottom:8%;
         color:#2b2b2b; z-index:2; overflow:auto;
       }
       .tw-card[data-paper="生活随记"] .tw-card-text::-webkit-scrollbar{width:3px;height:3px;}
