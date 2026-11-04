@@ -13,11 +13,20 @@
 ## 仓库结构
 
 ```
-manifest.json        # 素材清单（插件拉取的市场数据源）
-materials/           # 各素材的 .js 源文件（含版权文件头）
+manifest.json        # 素材清单（插件拉取的市场数据源，只留元信息 + previewUrl）
+materials/           # 各素材的 .js 源文件（含完整内联 preview，画布渲染用）
   ├─ 锦鲤贴纸.js      # type=sticker 样例
   └─ 暮山紫.js        # type=paper 样例
+previews/            # 市场列表缩略图（每个素材一份纯矢量 SVG，按需懒加载）
+  └─ 锦鲤贴纸.svg
 ```
+
+> **缩略图为什么单独放**：manifest 曾把每个素材的完整 SVG 内联在 `preview` 字段里，
+> 71 个素材时清单已达 **1.29 MB**，市场首屏必须整包下载完才能渲染。
+> 现在缩略图挪到 `previews/<id>.svg`、清单只留 `previewUrl`，清单降到 **36 KB**，
+> 图片由 `<img loading="lazy">` 按需拉取。
+> `previewUrl` 需插件 **≥ 3.28.14** 支持；更旧版本仍可正常安装使用素材，只是列表里显示「无预览」。
+> 素材 `.js` 内的 `preview` 字段**仍然必填**——安装后画布渲染与落卡尺寸取自它。
 
 > 素材类型：`sticker`（可单独贴到已有便签上叠加的插画）、`paper`（便签皮肤，拖进画布新建卡片）、`font`（字体）、`template`（模板）。目前上架 2 个样例，其余调试完善后陆续上架。
 
@@ -39,11 +48,15 @@ materials/           # 各素材的 .js 源文件（含版权文件头）
       "author": "羽鳞君",          // 作者署名
       "license": "竹林用户专享 …",  // 版权声明（含「专享」时插件显示「竹林专享」徽章）
       "version": "1.0.0",          // 用于更新检测
-      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/锦鲤贴纸.js"
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/锦鲤贴纸.js",
+      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/锦鲤贴纸.svg"  // 列表缩略图（懒加载）
     }
   ]
 }
 ```
+
+> `preview`（内联 SVG）与 `previewUrl`（外链 SVG）二选一：新素材一律用 `previewUrl`，
+> 旧的 `preview` 写法仍被校验脚本接受，但会让清单体积线性膨胀。
 
 ## 素材声明规范（照主题动效同构）
 

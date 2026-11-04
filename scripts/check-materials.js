@@ -317,12 +317,18 @@ const mf = JSON.parse(fs.readFileSync(MF, 'utf8'));
 const list = (mf && mf.materials) || [];
 if (!list.length) { console.error('❌ manifest.materials 为空'); process.exit(1); }
 
-const REQUIRED = ['id', 'name', 'type', 'author', 'version', 'description', 'preview', 'url'];
+const REQUIRED = ['id', 'name', 'type', 'author', 'version', 'description', 'url'];
 const VALID_TYPES = ['sticker', 'paper', 'font', 'template'];
 
 for (const m of list) {
   const id = m.id;
   for (const k of REQUIRED) if (!m[k]) fail(id, 'manifest-fields', `manifest 缺少字段 ${k}`);
+  // 缩略图二选一：内联 preview（旧写法）或 previewUrl（新写法，指向 previews/<id>.svg，按需懒加载）。
+  // 后者把整份 SVG 从 manifest 里挪出去 —— 全量内联曾让清单膨胀到 1.29 MB，市场首屏要整包下载。
+  if (!m.preview && !m.previewUrl) fail(id, 'manifest-fields', 'manifest 缺少字段 preview 或 previewUrl');
+  if (m.previewUrl && !String(m.previewUrl).endsWith('/previews/' + id + '.svg')) {
+    fail(id, 'manifest-preview-url', `previewUrl 未指向 previews/${id}.svg: ${m.previewUrl}`);
+  }
   if (m.type && !VALID_TYPES.includes(m.type)) fail(id, 'manifest-type', `type 非法: ${m.type}`);
 
   const jsPath = path.join(DIR, id + '.js');
@@ -339,7 +345,17 @@ for (const m of list) {
   if (typeof material.render !== 'function') fail(id, 'js-render', '缺少 render()');
 
   const full = material.preview || '';
-  const thumb = m.preview || '';
+  // 缩略图：优先内联 preview（旧条目），否则读 previewUrl 对应的本地文件 ——
+  // 两种写法都必须过同一套 SVG 结构闸门，避免「挪出去就没人查」。
+  let thumb = m.preview || '';
+  if (!thumb && m.previewUrl) {
+    const pvPath = path.join(ROOT, 'previews', id + '.svg');
+    if (!fs.existsSync(pvPath)) {
+      fail(id, 'preview-missing', `previewUrl 指向 previews/${id}.svg，但该文件不存在`);
+    } else {
+      thumb = fs.readFileSync(pvPath, 'utf8');
+    }
+  }
   const vbM = full.match(/viewBox\s*=\s*["']\s*(-?[\d.]+)\s+(-?[\d.]+)\s+([\d.]+)\s+([\d.]+)/i);
   const vb = vbM ? { x: +vbM[1], y: +vbM[2], w: +vbM[3], h: +vbM[4] } : null;
 
