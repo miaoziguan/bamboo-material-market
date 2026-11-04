@@ -418,7 +418,7 @@ for (const m of list) {
         fail(id, 'viewbox-fit', `viewBox 未贴合内容：内容占 ${(fw * 100).toFixed(0)}%×${(fh * 100).toFixed(0)}%（需 ≥${LIMIT.FIT_MIN * 100}%）；建议 viewBox="${bb.x.toFixed(1)} ${bb.y.toFixed(1)} ${bb.w.toFixed(1)} ${bb.h.toFixed(1)}"`);
       } else if (!clipped && (fw > LIMIT.FIT_MAX || fh > LIMIT.FIT_MAX)) {
         // 仅告警。带 clipPath/mask 的素材直接跳过（见上方 clipped 的说明）
-        warn(id, 'viewbox-overflow', `内容几何范围超出 viewBox：${(fw * 100).toFixed(0)}%×${(fh * 100).toFixed(0)}%（可能已被 clip-path 裁切，需人工确认）`);
+        warn(id, 'viewbox-overflow', `内容几何范围超出 viewBox：${(fw * 100).toFixed(0)}%×${(fh * 100).toFixed(0)}%（可能已被 clip-path 裁切，需人工确认）；内容包围盒 viewBox="${bb.x.toFixed(1)} ${bb.y.toFixed(1)} ${bb.w.toFixed(1)} ${bb.h.toFixed(1)}"`);
       }
       const bg = findFullCanvasBg(full, vb);
       if (bg) fail(id, 'no-bg-rect', `存在铺满画布的不透明背景 rect（${bg.w}×${bg.h} fill=${bg.fill}）`);

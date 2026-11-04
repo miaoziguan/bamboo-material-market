@@ -9,7 +9,7 @@ const material = {
 
   // 市场列表缩略图：内联用户设计 SVG（默认 preserveAspectRatio=meet 不失真）
   preview:
-    `<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 161.119 162.218">
+    `<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-22.8 -4.9 216.7 169.8">
   <defs>
     <radialGradient id="veg8-radial-gradient-1" cx="0" cy="0" r="88.289" gradientTransform="matrix(0.998 0.065 -0.066 1.012 48.823 73.745)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#f07c53"/>
