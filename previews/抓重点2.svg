@@ -1,0 +1,24 @@
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 277 277.5">
+  <defs>
+    <filter id="p91467-filter-1" filterUnits="userSpaceOnUse" x="34" y="34.5" width="245" height="245" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter>
+    <filter id="p91467-filter-2" filterUnits="userSpaceOnUse" x="-2" y="-2" width="107" height="107" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter>
+  </defs>
+  <g id="p91467-Asset_109" data-name="Asset 109">
+    <g>
+      <g>
+        <path d="M63 43.5 L250 43.5 C261.042 43.5 270 52.457 270 63.5 L270 250.5 C270 261.542 261.042 270.5 250 270.5 L63 270.5 C51.957 270.5 43 261.542 43 250.5 L43 63.5 C43 52.457 51.957 43.5 63 43.5 Z" fill="#ffffff"/>
+        <path d="M20.033 20.033 C37.41 2.656 65.589 2.656 82.966 20.033 C100.343 37.41 100.343 65.589 82.966 82.966 C65.589 100.343 37.41 100.343 20.033 82.966 C2.656 65.589 2.656 37.41 20.033 20.033 Z" fill="#ffffff"/>
+      </g>
+      <g>
+        <g filter="url(#p91467-filter-1)">
+          <path d="M63 51.5 L250 51.5 C256.627 51.5 262 56.873 262 63.5 L262 250.5 C262 257.127 256.627 262.5 250 262.5 L63 262.5 C56.373 262.5 51 257.127 51 250.5 L51 63.5 C51 56.873 56.373 51.5 63 51.5 Z" fill="#75d6ff"/>
+        </g>
+        <g filter="url(#p91467-filter-2)">
+          <circle cx="51.5" cy="51.5" r="36.5" fill="#75d6ff"/>
+        </g>
+      </g>
+      <circle cx="51.5" cy="51.5" r="23.092" fill="#ffffff"/>
+      <text transform="matrix(2.5 0 0 2.5 43 61)" x="0" y="0" xml:space="preserve" font-family="MiaoZi-YunYingTi, sans-serif" font-size="12px" fill="#75d6ff"><tspan x="0" y="0">2</tspan></text>
+    </g>
+  </g>
+</svg>

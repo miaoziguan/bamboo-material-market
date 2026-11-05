@@ -15,6 +15,8 @@
  *   · <style> + class=  →  内联 fill/stroke 属性
  *   · 根 <svg> 补 width="100%" height="100%"
  *   · 去掉 <?xml?> 声明与 <title>
+ *   · 所有 id 加素材名前缀（filter / clipPath / g id），避免多款皮肤同屏时 url(#…) 互相串
+ * manifest 缩略图写成 previews/<名字>.svg + previewUrl（懒加载），不再内联进清单。
  * 位图亦可作设计稿，但闸门会对长边 <1000px 告警（放大易发虚）。
  */
 'use strict';
@@ -57,7 +59,7 @@ if (fs.existsSync(target) && !opts.force) {
 }
 
 /* ---------- 设计稿规范化 ---------- */
-function normalizeSvg(svg) {
+function normalizeSvg(svg, prefix) {
   let s = svg;
   const styleBlock = (s.match(/<style>([\s\S]*?)<\/style>/) || [])[1] || "";
   const classMap = {};
@@ -85,12 +87,22 @@ function normalizeSvg(svg) {
     s = s.replace(rootOpen[0], tag);
   }
   s = s.replace(/<\?xml[^>]*\?>\s*/g, "").replace(/<title>[^<]*<\/title>\s*/g, "");
+  /* 同一套设计稿里 filter/clipPath 的 id 往往都叫 filter-1；三款皮肤同时出现在市场列表时
+     会互相抢 url(#…)。用「素材名字符码和」做 ASCII 前缀，稳定且与中文名一一对应。 */
+  const ids = [...s.matchAll(/\sid="([^"]+)"/g)].map(m => m[1]);
+  for (const id of ids) {
+    const nid = prefix + "-" + id;
+    s = s.split('id="' + id + '"').join('id="' + nid + '"');
+    s = s.split("url(#" + id + ")").join("url(#" + nid + ")");
+    s = s.split('href="#' + id + '"').join('href="#' + nid + '"');
+  }
   return s.replace(/\n{3,}/g, "\n\n").trim();
 }
 
+const pfx = "p" + Array.from(name).reduce((a, c) => a + c.charCodeAt(0), 0);
 let designSvg = null, designBmp = null, vb = null;
 if (/\.svg$/i.test(designFile)) {
-  designSvg = normalizeSvg(fs.readFileSync(designFile, "utf8"));
+  designSvg = normalizeSvg(fs.readFileSync(designFile, "utf8"), pfx);
   const m = designSvg.match(/viewBox\s*=\s*["']\s*[\d.-]+\s+[\d.-]+\s+([\d.]+)\s+([\d.]+)/);
   if (!m) { console.error("设计稿缺少 viewBox，无法推算宽高比"); process.exit(1); }
   vb = [+m[1], +m[2]];
@@ -169,6 +181,7 @@ if (mf.materials.some(m => m.id === name)) {
   if (material.type !== "paper") { console.error("模板 type 不是 paper: " + material.type); process.exit(1); }
   const author = opts.author || "羽鳞君";
   const desc = opts.desc || ("用户设计的" + name + "主题便签皮肤，拖进画布新建卡片。");
+  const RAW = "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main";
   const entry = {
     id: name,
     name: name,
@@ -176,9 +189,19 @@ if (mf.materials.some(m => m.id === name)) {
     author: author,
     version: "1.0.0",
     description: desc,
-    preview: material.preview,
-    url: "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/" + name + ".js",
+    url: RAW + "/materials/" + name + ".js",
   };
+  /* 缩略图外置：清单只留 previewUrl，由插件 <img loading="lazy"> 按需拉取，
+     避免每上一款皮肤就把整幅 SVG 内联进 manifest（曾把清单撑到 1.29MB）。 */
+  if (designSvg) {
+    const PV_DIR = path.join(ROOT, "previews");
+    fs.mkdirSync(PV_DIR, { recursive: true });
+    fs.writeFileSync(path.join(PV_DIR, name + ".svg"), material.preview, "utf8");
+    entry.previewUrl = RAW + "/previews/" + name + ".svg";
+    console.log("已生成 previews/" + name + ".svg（清单只留 previewUrl）");
+  } else {
+    entry.preview = material.preview;   // 位图分支沿用旧写法
+  }
   if (opts.series) entry.series = opts.series;
   // 插在最后一个 paper 之后，保持 manifest 现有分组顺序
   let at = -1;

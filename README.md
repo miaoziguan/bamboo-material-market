@@ -183,7 +183,7 @@ node scripts/new-paper.js <名字> <设计稿.svg|png> [选项]
 #       --force 覆盖  --no-gate 跳过闸门
 ```
 
-自动做四件事：规范化设计稿（`class=`→内联 `fill`、补根尺寸、去 XML 声明）、按模板填值（`aspect-ratio` 从 viewBox 自动推算）、追加 manifest 条目、跑闸门。模板即 `materials/_template.paper.js`——**改模板即改生成器产出**，不另存一份 CSS 真值。
+自动做：规范化设计稿（`class=`→内联 `fill`、补根尺寸、去 XML 声明、所有 `id` 加素材名前缀避免多款同屏串色）、按模板填值（`aspect-ratio` 从 viewBox 自动推算）、把缩略图写成 `previews/<名字>.svg` 并在清单**只留 `previewUrl`**（懒加载，不内联撑大 manifest）、追加 manifest 条目、跑闸门。模板即 `materials/_template.paper.js`——**改模板即改生成器产出**，不另存一份 CSS 真值。
 
 ### `scripts/calibrate-text-area.js` — 文字区可视化标定
 
