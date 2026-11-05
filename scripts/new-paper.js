@@ -170,18 +170,31 @@ console.log("   文字编辑区: " + ["top", "left", "right", "bottom"]
   .join("  "));
 
 /* ---------- manifest 追加条目 ---------- */
+const w = {};
+new Function("window", out)(w);
+const material = w["__bamboo_material_" + name];
+if (!material) { console.error("生成的文件未导出 __bamboo_material_" + name); process.exit(1); }
+if (material.type !== "paper") { console.error("模板 type 不是 paper: " + material.type); process.exit(1); }
+
+const RAW = "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main";
+/* 缩略图外置：清单只留 previewUrl，由插件 <img loading="lazy"> 按需拉取，
+   避免每上一款皮肤就把整幅 SVG 内联进 manifest（曾把清单撑到 1.29MB）。
+   写在 manifest 分支之外 —— --force 重跑（例如把文字转路径后重生成）也要刷新缩略图。 */
+let previewUrl = null;
+if (designSvg) {
+  const PV_DIR = path.join(ROOT, "previews");
+  fs.mkdirSync(PV_DIR, { recursive: true });
+  fs.writeFileSync(path.join(PV_DIR, name + ".svg"), material.preview, "utf8");
+  previewUrl = RAW + "/previews/" + name + ".svg";
+  console.log("已刷新 previews/" + name + ".svg（清单只留 previewUrl）");
+}
+
 const mf = JSON.parse(fs.readFileSync(MF, "utf8"));
 if (mf.materials.some(m => m.id === name)) {
-  console.log("manifest 已有 id=" + name + "，未改动 manifest");
+  console.log("manifest 已有 id=" + name + "，未改动 manifest（description/series 保持原值）");
 } else {
-  const w = {};
-  new Function("window", out)(w);
-  const material = w["__bamboo_material_" + name];
-  if (!material) { console.error("生成的文件未导出 __bamboo_material_" + name); process.exit(1); }
-  if (material.type !== "paper") { console.error("模板 type 不是 paper: " + material.type); process.exit(1); }
   const author = opts.author || "羽鳞君";
   const desc = opts.desc || ("用户设计的" + name + "主题便签皮肤，拖进画布新建卡片。");
-  const RAW = "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main";
   const entry = {
     id: name,
     name: name,
@@ -191,17 +204,8 @@ if (mf.materials.some(m => m.id === name)) {
     description: desc,
     url: RAW + "/materials/" + name + ".js",
   };
-  /* 缩略图外置：清单只留 previewUrl，由插件 <img loading="lazy"> 按需拉取，
-     避免每上一款皮肤就把整幅 SVG 内联进 manifest（曾把清单撑到 1.29MB）。 */
-  if (designSvg) {
-    const PV_DIR = path.join(ROOT, "previews");
-    fs.mkdirSync(PV_DIR, { recursive: true });
-    fs.writeFileSync(path.join(PV_DIR, name + ".svg"), material.preview, "utf8");
-    entry.previewUrl = RAW + "/previews/" + name + ".svg";
-    console.log("已生成 previews/" + name + ".svg（清单只留 previewUrl）");
-  } else {
-    entry.preview = material.preview;   // 位图分支沿用旧写法
-  }
+  if (previewUrl) entry.previewUrl = previewUrl;
+  else entry.preview = material.preview;   // 位图分支沿用旧写法
   if (opts.series) entry.series = opts.series;
   // 插在最后一个 paper 之后，保持 manifest 现有分组顺序
   let at = -1;

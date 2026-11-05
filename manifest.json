@@ -702,8 +702,8 @@
       "name": "抓重点1",
       "type": "paper",
       "author": "羽鳞君",
-      "version": "1.0.0",
-      "description": "用户设计的「抓重点123」系列便签皮肤：抓重点1（粉色）。拖进画布新建卡片。",
+      "version": "1.0.1",
+      "description": "用户设计的「抓重点123」系列便签皮肤：抓重点1（粉色）。拖进画布新建卡片。v1.0.1 把左上角标号数字由 <text> 改为原字体 MiaoZi-YunYingTi 的矢量轮廓 <path>，不再依赖设备是否安装该字体。",
       "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/抓重点1.js",
       "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/抓重点1.svg",
       "series": "抓重点123"
@@ -713,8 +713,8 @@
       "name": "抓重点2",
       "type": "paper",
       "author": "羽鳞君",
-      "version": "1.0.0",
-      "description": "用户设计的「抓重点123」系列便签皮肤：抓重点2（蓝色）。拖进画布新建卡片。",
+      "version": "1.0.1",
+      "description": "用户设计的「抓重点123」系列便签皮肤：抓重点2（蓝色）。拖进画布新建卡片。v1.0.1 把左上角标号数字由 <text> 改为原字体 MiaoZi-YunYingTi 的矢量轮廓 <path>，不再依赖设备是否安装该字体。",
       "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/抓重点2.js",
       "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/抓重点2.svg",
       "series": "抓重点123"
@@ -724,8 +724,8 @@
       "name": "抓重点3",
       "type": "paper",
       "author": "羽鳞君",
-      "version": "1.0.0",
-      "description": "用户设计的「抓重点123」系列便签皮肤：抓重点3（绿色）。拖进画布新建卡片。",
+      "version": "1.0.1",
+      "description": "用户设计的「抓重点123」系列便签皮肤：抓重点3（绿色）。拖进画布新建卡片。v1.0.1 把左上角标号数字由 <text> 改为原字体 MiaoZi-YunYingTi 的矢量轮廓 <path>，不再依赖设备是否安装该字体。",
       "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/抓重点3.js",
       "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/抓重点3.svg",
       "series": "抓重点123"
