@@ -110,7 +110,7 @@ const material = {
          这里【不要写 font-size】——字号由主题 var(--tw-fs-base) 联动 A↑A↓ 按钮，
          paper 规则特异性更高，写死即使字号调节失效。 */
       .tw-card[data-paper="抓重点1"] .tw-card-text{
-        position:absolute; top:25%; left:24%; right:10%; bottom:15%;
+        position:absolute; top:30%; left:24%; right:10%; bottom:10%;
         color:#1a1a1a; z-index:2; overflow:auto;
         /* 不要写 text-align：全局 .tw-card-text 已设 justify（两端对齐），
            皮肤规则特异性更高，写死 left/center 会顶掉它 —— 生活渐变四款就是这样踩的。 */
