@@ -731,6 +731,50 @@
       "series": "抓重点123"
     },
     {
+      "id": "梅",
+      "name": "梅",
+      "type": "paper",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "梅兰竹菊系列 · 梅主题便签皮肤，拖进画布新建卡片。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/梅.js",
+      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/梅.svg",
+      "series": "梅兰竹菊"
+    },
+    {
+      "id": "兰",
+      "name": "兰",
+      "type": "paper",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "梅兰竹菊系列 · 兰主题便签皮肤，拖进画布新建卡片。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/兰.js",
+      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/兰.svg",
+      "series": "梅兰竹菊"
+    },
+    {
+      "id": "竹",
+      "name": "竹",
+      "type": "paper",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "梅兰竹菊系列 · 竹主题便签皮肤，拖进画布新建卡片。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/竹.js",
+      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/竹.svg",
+      "series": "梅兰竹菊"
+    },
+    {
+      "id": "菊",
+      "name": "菊",
+      "type": "paper",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "梅兰竹菊系列 · 菊主题便签皮肤，拖进画布新建卡片。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/菊.js",
+      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/菊.svg",
+      "series": "梅兰竹菊"
+    },
+    {
       "id": "白菜",
       "name": "白菜",
       "type": "sticker",
