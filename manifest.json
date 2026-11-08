@@ -775,6 +775,50 @@
       "series": "梅兰竹菊"
     },
     {
+      "id": "笔",
+      "name": "笔",
+      "type": "paper",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "文房四宝系列 · 笔主题便签皮肤，拖进画布新建卡片。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/笔.js",
+      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/笔.svg",
+      "series": "文房四宝"
+    },
+    {
+      "id": "墨",
+      "name": "墨",
+      "type": "paper",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "文房四宝系列 · 墨主题便签皮肤，拖进画布新建卡片。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/墨.js",
+      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/墨.svg",
+      "series": "文房四宝"
+    },
+    {
+      "id": "纸",
+      "name": "纸",
+      "type": "paper",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "文房四宝系列 · 纸主题便签皮肤，拖进画布新建卡片。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/纸.js",
+      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/纸.svg",
+      "series": "文房四宝"
+    },
+    {
+      "id": "砚",
+      "name": "砚",
+      "type": "paper",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "文房四宝系列 · 砚主题便签皮肤，拖进画布新建卡片。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/砚.js",
+      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/砚.svg",
+      "series": "文房四宝"
+    },
+    {
       "id": "白菜",
       "name": "白菜",
       "type": "sticker",

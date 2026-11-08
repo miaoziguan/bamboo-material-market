@@ -1,0 +1,149 @@
+/**
+ * 竹林便签素材市场 · paper（便签皮肤）模板
+ * ============================================================================
+ * 这不是上架素材（文件名以 _ 开头，manifest 不登记，闸门不扫描）。
+ * 新皮肤从它复制，把 TODO 填掉即可——下面每一条规则都对应一次真实事故。
+ *
+ * 【使用步骤】
+ *   1. cp materials/_template.paper.js materials/纸.js
+ *   2. 全文替换两处命名：
+ *        __bamboo_material_纸   （全局变量，需与文件名一致）
+ *        data-paper="纸"         （css 作用域锚点）
+ *   3. 用设计稿替换 preview（市场缩略图）与 css() 里的背景图
+ *   4. 改 aspect-ratio（设计稿宽高比）与 .tw-card-text 的 4 个百分比（文字编辑区）
+ *   5. node scripts/check-materials.js          ← 必须 exit 0 才能提交
+ *
+ * 【设计稿嵌入 css() 的方法】（二选一，推荐 base64，无转义陷阱）
+ *   node -e 'console.log("data:image/svg+xml;base64,"+require("fs").readFileSync("design.svg").toString("base64"))'
+ *   node -e 'console.log("data:image/png;base64,"+require("fs").readFileSync("design.png").toString("base64"))'
+ *   把输出整行贴到下面 ::after 的 background-image 里。
+ *
+ * 【便签皮肤制作红线（每条都是踩过的坑）】
+ *   1. 设计稿优先交付【矢量 SVG】。位图长边建议 ≥1600px——低于此值用户一放大就发虚
+ *      （好好吃饭曾压到 500px、梦珑香梨曾整张被栅格成 400px，双双被投诉）。
+ *      矢量 SVG 无限清晰，且文件通常更小。
+ *   2. 卡片 background 必须 transparent（或不写）。写死不透明色会把整张卡打成实色底，
+ *      盖掉设计图——好好吃饭曾因 background:#ffffff 看起来「没有背景」。
+ *   3. .tw-card-head 必须显式 border:none。主题默认给它一条
+ *      border-bottom:2px solid rgba(var(--tw-rule-rgb),.14)，而 paper 规则特异性更高，
+ *      不显式清除就会在卡片底部多出一条灰线（好好吃饭事故）。
+ *   4. .tw-card-edge / .tw-card-noise 必须 display:none，否则带上主题默认的齿边与噪点。
+ *   5. .tw-card-text 【禁止写 font-size】。主题的字号链路是
+ *        A↑A↓ 按钮 → --tw-text-zoom → --tw-fs-base → .tw-card-text{font-size:var(--tw-fs-base)}
+ *      paper 规则特异性 (0,3,0) 高于基础规则 (0,1,0)，一旦写死就掐断链路，
+ *      字号按钮全程无反应（好好吃饭事故）。要调大小就改 --tw-type-fs 或接受主题默认。
+ *   6. 滚动条用下面的「发丝级悬停」四联，不要用 scrollbar-width:none——
+ *      新版 Chromium 中它会彻底禁用滚动条，并让 ::-webkit-scrollbar 规则全部失效。
+ *   7. 背景图宽高比必须与 aspect-ratio 一致。background-size:100% 100% 是强行拉伸，
+ *      差超过 1% 就会看出变形（闸门 css-viewbox-aspect 会拦）。
+ *   8. preview（市场缩略图）另有独立要求：根 <svg> 必须带 width="100%" height="100%"、
+ *      禁止内嵌 <style> 与 class=、禁止铺满画布的不透明 <rect>、viewBox 贴合内容。
+ *      详见 README「素材制作红线」。
+ * ============================================================================
+ */
+
+// 文件名: 纸.js  →  全局变量: __bamboo_material_纸
+// 版权：竹林用户专享 · 未经授权禁止使用（含个人使用）© 2026 羽鳞君 保留所有权利
+
+const material = {
+  type: 'paper',                 // 必填：paper = 便签皮肤（拖进画布新建卡片）
+  name: '纸',            // TODO: 市场展示名，与文件名一致
+
+  // 市场列表缩略图（内联 SVG，零外链）。
+  // 注意：这里是【缩略图】，不是卡片背景——卡片背景在 css() 的 ::after 里。
+  // 根 <svg> 必须自带 width="100%" height="100%"；禁止 <style> / class= / 铺满画布的实色 rect。
+  preview: `<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 647.262 252.529">
+  <defs>
+    <linearGradient id="p32440-linear-gradient-1" x1="561.672" y1="153.41" x2="598.835" y2="116.248" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f8e3a4"/>
+      <stop offset="1" stop-color="#f9e6ac"/>
+    </linearGradient>
+    <linearGradient id="p32440-linear-gradient-2" x1="517.235" y1="150.239" x2="606.793" y2="60.681" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f8e3a4"/>
+      <stop offset="1" stop-color="#f9e6ac"/>
+    </linearGradient>
+  </defs>
+  <g id="p32440-Asset_118" data-name="Asset 118">
+    <g>
+      <path d="M0 29.653 C0 13.276 13.276 0 29.653 0 L402.653 0 C417.477 0 429.76 10.877 431.957 25.085 C434.154 10.877 446.437 0 461.26 0 L617.608 0 C633.985 0 647.262 13.276 647.262 29.653 L647.262 222.875 C647.262 239.252 633.985 252.529 617.608 252.529 L461.26 252.529 C446.437 252.529 434.154 241.652 431.957 227.444 C429.76 241.652 417.477 252.529 402.653 252.529 L29.653 252.529 C13.276 252.529 0 239.252 0 222.875 Z" fill="#eceee1"/>
+      <path d="M29.653 13.99 L402.653 13.99 C406.704 13.99 410.232 15.5 412.889 17.797 C415.576 20.121 417.539 23.399 418.13 27.223 C419.185 34.043 425.055 39.075 431.957 39.075 C438.858 39.075 444.728 34.043 445.783 27.223 C446.374 23.399 448.337 20.121 451.025 17.797 C453.681 15.5 457.209 13.99 461.26 13.99 L617.608 13.99 C626.263 13.99 633.271 20.999 633.271 29.653 L633.271 222.875 C633.271 231.53 626.263 238.538 617.608 238.538 L461.26 238.538 C457.209 238.538 453.681 237.029 451.025 234.732 C448.337 232.408 446.374 229.129 445.783 225.306 C444.728 218.486 438.858 213.453 431.957 213.453 C425.055 213.453 419.185 218.486 418.13 225.306 C417.539 229.129 415.576 232.408 412.889 234.732 C410.232 237.029 406.704 238.538 402.653 238.538 L29.653 238.538 C20.999 238.538 13.99 231.53 13.99 222.875 L13.99 29.653 C13.99 20.999 20.999 13.99 29.653 13.99 Z" fill="#ffffff" stroke="#fbb03b" stroke-width="2.099" stroke-miterlimit="10"/>
+      <g>
+        <polygon points="572.445,117.558 560.361,146.399 591.14,152.099 600.146,147.083 597.98,134.886" fill="url(#p32440-linear-gradient-1)"/>
+        <path d="M587.417 148.184 C583.178 144.626 584.393 136.198 590.132 129.358 C595.871 122.519 603.961 119.858 608.201 123.416 C612.44 126.974 611.225 135.402 605.486 142.242 C599.747 149.081 591.657 151.742 587.417 148.184 Z" fill="#e5b144"/>
+        <path d="M588.197 146.798 C584.333 143.556 585.324 136.014 590.41 129.952 C595.497 123.89 602.752 121.605 606.616 124.847 C610.48 128.089 609.489 135.632 604.403 141.694 C599.316 147.755 592.061 150.041 588.197 146.798 Z" fill="#f2d996"/>
+        <path d="M591.804 143.207 C589.612 141.368 590.473 136.732 593.728 132.853 C596.983 128.975 601.398 127.321 603.591 129.161 C605.783 131.001 604.922 135.636 601.667 139.515 C598.412 143.394 593.996 145.047 591.804 143.207 Z" fill="#d89f40"/>
+        <path d="M590.456 144.63 C587.659 142.283 588.593 136.566 592.541 131.861 C596.489 127.156 601.957 125.244 604.754 127.591 C607.551 129.937 606.617 135.654 602.669 140.36 C598.721 145.065 593.253 146.977 590.456 144.63 Z" fill="none" stroke="#d89f40" stroke-width="0.83" stroke-miterlimit="10"/>
+        <path d="M589.296 145.873 C585.927 143.047 586.915 136.325 591.5 130.86 C596.086 125.395 602.534 123.255 605.903 126.082 C609.271 128.908 608.284 135.63 603.698 141.095 C599.112 146.56 592.664 148.699 589.296 145.873 Z" fill="none" stroke="#d89f40" stroke-width="0.83" stroke-miterlimit="10"/>
+        <path d="M601.856 145.829 L535.396 189.832 L468.139 124.17 L521.375 89.288 L587.036 149.021 C589.658 151.073 595.928 150.389 601.856 145.829 Z" fill="#fcf0cb"/>
+        <path d="M515.333 78.8 C516.195 74.124 520.4 64.807 528.874 62.871 C531.844 62.192 535.675 63.522 539.243 66.469 L608.81 123.942 C608.81 123.942 608.623 124.16 608.009 123.645 C603.769 120.087 595.722 122.697 590.036 129.473 C584.639 135.905 583.308 143.779 586.813 147.605 L586.238 148.223 L520.691 88.832 C520.691 88.832 514.292 84.447 515.333 78.8 Z" fill="url(#p32440-linear-gradient-2)"/>
+      </g>
+      <g>
+        <path d="M432.656 39.873 L432.656 44.209 C432.656 44.789 432.186 45.259 431.607 45.259 C431.027 45.259 430.558 44.789 430.558 44.209 L430.558 39.873 C430.558 39.293 431.027 38.824 431.607 38.824 C432.186 38.824 432.656 39.293 432.656 39.873 M432.656 52.882 L432.656 61.555 C432.656 62.135 432.186 62.605 431.607 62.605 C431.027 62.605 430.558 62.135 430.558 61.555 L430.558 52.882 C430.558 52.303 431.027 51.833 431.607 51.833 C432.186 51.833 432.656 52.303 432.656 52.882 M432.656 70.228 L432.656 78.901 C432.656 79.481 432.186 79.95 431.607 79.95 C431.027 79.95 430.558 79.481 430.558 78.901 L430.558 70.228 C430.558 69.649 431.027 69.179 431.607 69.179 C432.186 69.179 432.656 69.649 432.656 70.228 M432.656 87.574 L432.656 96.247 C432.656 96.827 432.186 97.296 431.607 97.296 C431.027 97.296 430.558 96.827 430.558 96.247 L430.558 87.574 C430.558 86.995 431.027 86.525 431.607 86.525 C432.186 86.525 432.656 86.995 432.656 87.574 M432.656 104.92 L432.656 113.593 C432.656 114.172 432.186 114.642 431.607 114.642 C431.027 114.642 430.558 114.172 430.558 113.593 L430.558 104.92 C430.558 104.341 431.027 103.871 431.607 103.871 C432.186 103.871 432.656 104.341 432.656 104.92 M432.656 122.266 L432.656 130.939 C432.656 131.518 432.186 131.988 431.607 131.988 C431.027 131.988 430.558 131.518 430.558 130.939 L430.558 122.266 C430.558 121.686 431.027 121.217 431.607 121.217 C432.186 121.217 432.656 121.686 432.656 122.266 M432.656 139.612 L432.656 148.285 C432.656 148.864 432.186 149.334 431.607 149.334 C431.027 149.334 430.558 148.864 430.558 148.285 L430.558 139.612 C430.558 139.032 431.027 138.563 431.607 138.563 C432.186 138.563 432.656 139.032 432.656 139.612 M432.656 156.958 L432.656 165.631 C432.656 166.21 432.186 166.68 431.607 166.68 C431.027 166.68 430.558 166.21 430.558 165.631 L430.558 156.958 C430.558 156.378 431.027 155.908 431.607 155.908 C432.186 155.908 432.656 156.378 432.656 156.958 M432.656 174.304 L432.656 182.977 C432.656 183.556 432.186 184.026 431.607 184.026 C431.027 184.026 430.558 183.556 430.558 182.977 L430.558 174.304 C430.558 173.724 431.027 173.254 431.607 173.254 C432.186 173.254 432.656 173.724 432.656 174.304 M432.656 191.649 L432.656 200.322 C432.656 200.902 432.186 201.372 431.607 201.372 C431.027 201.372 430.558 200.902 430.558 200.322 L430.558 191.649 C430.558 191.07 431.027 190.6 431.607 190.6 C432.186 190.6 432.656 191.07 432.656 191.649 M432.656 208.995 L432.656 213.332 C432.656 213.911 432.186 214.381 431.607 214.381 C431.027 214.381 430.558 213.911 430.558 213.332 L430.558 208.995 C430.558 208.416 431.027 207.946 431.607 207.946 C432.186 207.946 432.656 208.416 432.656 208.995" fill="#fbb03b"/>
+      </g>
+    </g>
+  </g>
+</svg>`,
+
+  // 注入到 .tw-card[data-paper="纸"] 的 CSS（作用域隔离，不会污染其他素材）
+  css() {
+    return `
+      .tw-card[data-paper="纸"]{
+        background:transparent;                 /* 必须透明：背景交给设计图，别盖掉它 */
+        box-shadow:none;
+        border:none;
+        aspect-ratio: 647.262 / 252.529;                /* TODO: 设计稿宽高比，须与背景图一致 */
+        --rice-paper:transparent;               /* 纸底色；若设计本身是不透明纸才改 */
+        --ink-dark:#5a4116;                     /* 主墨色（正文）*/
+        --ink-pale:#a88a57;                     /* 淡墨（标题等弱信息）*/
+        --tw-rule-rgb:168,138,87;              /* 分隔线 RGB 三元组，与 --ink-pale 同色 */
+        --edge-distort:0;
+        --noise:0;
+      }
+      /* 齿边与噪点元素：不隐藏会带上主题默认装饰 */
+      .tw-card[data-paper="纸"] .tw-card-edge,
+      .tw-card[data-paper="纸"] .tw-card-noise{display:none;}
+      /* 卡片主体：display:block 覆盖主题的 flex 布局，color 供正文继承 */
+      .tw-card[data-paper="纸"] .tw-card-main{
+        background:transparent; color:#5a4116; position:relative; height:100%; padding:0; display:block;
+      }
+      /* 主题自带的标题栏：本设计自带标题，隐藏掉 */
+      .tw-card[data-paper="纸"] .tw-card-title{ visibility:hidden; }
+      /* 交互层铺满卡片；border:none 是关键——清掉主题默认的 2px 下边框，否则卡片底部多一条灰线 */
+      .tw-card[data-paper="纸"] .tw-card-head{
+        position:absolute; inset:0; border:none; padding:0; margin:0; z-index:1;
+      }
+      /* ── 文字编辑区：4 个百分比定义「用户能输入文字」的范围 ──
+         top/left/right/bottom 都是相对于卡片。建议先用设计稿量出可写字块的位置。
+         这里【不要写 font-size】——字号由主题 var(--tw-fs-base) 联动 A↑A↓ 按钮，
+         paper 规则特异性更高，写死即使字号调节失效。 */
+      .tw-card[data-paper="纸"] .tw-card-text{
+        position:absolute; top:13.5%; left:5.5%; right:36%; bottom:13.5%;
+        color:#5a4116; z-index:2; overflow:auto;
+        /* 不要写 text-align：全局 .tw-card-text 已设 justify（两端对齐），
+           皮肤规则特异性更高，写死 left/center 会顶掉它 —— 生活渐变四款就是这样踩的。 */
+      }
+      /* ── 发丝级悬停滚动条 ──
+         默认完全隐形（轨道与滑块皆透明），鼠标悬停卡片时才浮现 3px 淡墨滑块。
+         既有「还有更多内容」的提示，又不破坏设计。勿改 scrollbar-width:none。 */
+      .tw-card[data-paper="纸"] .tw-card-text::-webkit-scrollbar{width:3px;height:3px;}
+      .tw-card[data-paper="纸"] .tw-card-text::-webkit-scrollbar-track{background:transparent;}
+      .tw-card[data-paper="纸"] .tw-card-text::-webkit-scrollbar-thumb{background:transparent;border-radius:2px;}
+      .tw-card[data-paper="纸"]:hover .tw-card-text::-webkit-scrollbar-thumb{background:rgba(35,24,21,0.12);}
+      /* ── 设计图（卡片背景）──
+         TODO: 用上面的命令生成 data-URI 整行替换。
+         优先矢量 SVG（无限清晰）；若只有位图，长边务必 ≥1600px。
+         background-size:100% 100% 会拉伸，故背景图宽高比必须与 aspect-ratio 一致。 */
+      .tw-card[data-paper="纸"] .tw-card-main::after{
+        content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+        background-image:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgNjQ3LjI2MiAyNTIuNTI5Ij4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0icDMyNDQwLWxpbmVhci1ncmFkaWVudC0xIiB4MT0iNTYxLjY3MiIgeTE9IjE1My40MSIgeDI9IjU5OC44MzUiIHkyPSIxMTYuMjQ4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2Y4ZTNhNCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmOWU2YWMiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InAzMjQ0MC1saW5lYXItZ3JhZGllbnQtMiIgeDE9IjUxNy4yMzUiIHkxPSIxNTAuMjM5IiB4Mj0iNjA2Ljc5MyIgeTI9IjYwLjY4MSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmOGUzYTQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZjllNmFjIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8ZyBpZD0icDMyNDQwLUFzc2V0XzExOCIgZGF0YS1uYW1lPSJBc3NldCAxMTgiPgogICAgPGc+CiAgICAgIDxwYXRoIGQ9Ik0wIDI5LjY1MyBDMCAxMy4yNzYgMTMuMjc2IDAgMjkuNjUzIDAgTDQwMi42NTMgMCBDNDE3LjQ3NyAwIDQyOS43NiAxMC44NzcgNDMxLjk1NyAyNS4wODUgQzQzNC4xNTQgMTAuODc3IDQ0Ni40MzcgMCA0NjEuMjYgMCBMNjE3LjYwOCAwIEM2MzMuOTg1IDAgNjQ3LjI2MiAxMy4yNzYgNjQ3LjI2MiAyOS42NTMgTDY0Ny4yNjIgMjIyLjg3NSBDNjQ3LjI2MiAyMzkuMjUyIDYzMy45ODUgMjUyLjUyOSA2MTcuNjA4IDI1Mi41MjkgTDQ2MS4yNiAyNTIuNTI5IEM0NDYuNDM3IDI1Mi41MjkgNDM0LjE1NCAyNDEuNjUyIDQzMS45NTcgMjI3LjQ0NCBDNDI5Ljc2IDI0MS42NTIgNDE3LjQ3NyAyNTIuNTI5IDQwMi42NTMgMjUyLjUyOSBMMjkuNjUzIDI1Mi41MjkgQzEzLjI3NiAyNTIuNTI5IDAgMjM5LjI1MiAwIDIyMi44NzUgWiIgZmlsbD0iI2VjZWVlMSIvPgogICAgICA8cGF0aCBkPSJNMjkuNjUzIDEzLjk5IEw0MDIuNjUzIDEzLjk5IEM0MDYuNzA0IDEzLjk5IDQxMC4yMzIgMTUuNSA0MTIuODg5IDE3Ljc5NyBDNDE1LjU3NiAyMC4xMjEgNDE3LjUzOSAyMy4zOTkgNDE4LjEzIDI3LjIyMyBDNDE5LjE4NSAzNC4wNDMgNDI1LjA1NSAzOS4wNzUgNDMxLjk1NyAzOS4wNzUgQzQzOC44NTggMzkuMDc1IDQ0NC43MjggMzQuMDQzIDQ0NS43ODMgMjcuMjIzIEM0NDYuMzc0IDIzLjM5OSA0NDguMzM3IDIwLjEyMSA0NTEuMDI1IDE3Ljc5NyBDNDUzLjY4MSAxNS41IDQ1Ny4yMDkgMTMuOTkgNDYxLjI2IDEzLjk5IEw2MTcuNjA4IDEzLjk5IEM2MjYuMjYzIDEzLjk5IDYzMy4yNzEgMjAuOTk5IDYzMy4yNzEgMjkuNjUzIEw2MzMuMjcxIDIyMi44NzUgQzYzMy4yNzEgMjMxLjUzIDYyNi4yNjMgMjM4LjUzOCA2MTcuNjA4IDIzOC41MzggTDQ2MS4yNiAyMzguNTM4IEM0NTcuMjA5IDIzOC41MzggNDUzLjY4MSAyMzcuMDI5IDQ1MS4wMjUgMjM0LjczMiBDNDQ4LjMzNyAyMzIuNDA4IDQ0Ni4zNzQgMjI5LjEyOSA0NDUuNzgzIDIyNS4zMDYgQzQ0NC43MjggMjE4LjQ4NiA0MzguODU4IDIxMy40NTMgNDMxLjk1NyAyMTMuNDUzIEM0MjUuMDU1IDIxMy40NTMgNDE5LjE4NSAyMTguNDg2IDQxOC4xMyAyMjUuMzA2IEM0MTcuNTM5IDIyOS4xMjkgNDE1LjU3NiAyMzIuNDA4IDQxMi44ODkgMjM0LjczMiBDNDEwLjIzMiAyMzcuMDI5IDQwNi43MDQgMjM4LjUzOCA0MDIuNjUzIDIzOC41MzggTDI5LjY1MyAyMzguNTM4IEMyMC45OTkgMjM4LjUzOCAxMy45OSAyMzEuNTMgMTMuOTkgMjIyLjg3NSBMMTMuOTkgMjkuNjUzIEMxMy45OSAyMC45OTkgMjAuOTk5IDEzLjk5IDI5LjY1MyAxMy45OSBaIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNmYmIwM2IiIHN0cm9rZS13aWR0aD0iMi4wOTkiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIvPgogICAgICA8Zz4KICAgICAgICA8cG9seWdvbiBwb2ludHM9IjU3Mi40NDUsMTE3LjU1OCA1NjAuMzYxLDE0Ni4zOTkgNTkxLjE0LDE1Mi4wOTkgNjAwLjE0NiwxNDcuMDgzIDU5Ny45OCwxMzQuODg2IiBmaWxsPSJ1cmwoI3AzMjQ0MC1saW5lYXItZ3JhZGllbnQtMSkiLz4KICAgICAgICA8cGF0aCBkPSJNNTg3LjQxNyAxNDguMTg0IEM1ODMuMTc4IDE0NC42MjYgNTg0LjM5MyAxMzYuMTk4IDU5MC4xMzIgMTI5LjM1OCBDNTk1Ljg3MSAxMjIuNTE5IDYwMy45NjEgMTE5Ljg1OCA2MDguMjAxIDEyMy40MTYgQzYxMi40NCAxMjYuOTc0IDYxMS4yMjUgMTM1LjQwMiA2MDUuNDg2IDE0Mi4yNDIgQzU5OS43NDcgMTQ5LjA4MSA1OTEuNjU3IDE1MS43NDIgNTg3LjQxNyAxNDguMTg0IFoiIGZpbGw9IiNlNWIxNDQiLz4KICAgICAgICA8cGF0aCBkPSJNNTg4LjE5NyAxNDYuNzk4IEM1ODQuMzMzIDE0My41NTYgNTg1LjMyNCAxMzYuMDE0IDU5MC40MSAxMjkuOTUyIEM1OTUuNDk3IDEyMy44OSA2MDIuNzUyIDEyMS42MDUgNjA2LjYxNiAxMjQuODQ3IEM2MTAuNDggMTI4LjA4OSA2MDkuNDg5IDEzNS42MzIgNjA0LjQwMyAxNDEuNjk0IEM1OTkuMzE2IDE0Ny43NTUgNTkyLjA2MSAxNTAuMDQxIDU4OC4xOTcgMTQ2Ljc5OCBaIiBmaWxsPSIjZjJkOTk2Ii8+CiAgICAgICAgPHBhdGggZD0iTTU5MS44MDQgMTQzLjIwNyBDNTg5LjYxMiAxNDEuMzY4IDU5MC40NzMgMTM2LjczMiA1OTMuNzI4IDEzMi44NTMgQzU5Ni45ODMgMTI4Ljk3NSA2MDEuMzk4IDEyNy4zMjEgNjAzLjU5MSAxMjkuMTYxIEM2MDUuNzgzIDEzMS4wMDEgNjA0LjkyMiAxMzUuNjM2IDYwMS42NjcgMTM5LjUxNSBDNTk4LjQxMiAxNDMuMzk0IDU5My45OTYgMTQ1LjA0NyA1OTEuODA0IDE0My4yMDcgWiIgZmlsbD0iI2Q4OWY0MCIvPgogICAgICAgIDxwYXRoIGQ9Ik01OTAuNDU2IDE0NC42MyBDNTg3LjY1OSAxNDIuMjgzIDU4OC41OTMgMTM2LjU2NiA1OTIuNTQxIDEzMS44NjEgQzU5Ni40ODkgMTI3LjE1NiA2MDEuOTU3IDEyNS4yNDQgNjA0Ljc1NCAxMjcuNTkxIEM2MDcuNTUxIDEyOS45MzcgNjA2LjYxNyAxMzUuNjU0IDYwMi42NjkgMTQwLjM2IEM1OTguNzIxIDE0NS4wNjUgNTkzLjI1MyAxNDYuOTc3IDU5MC40NTYgMTQ0LjYzIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q4OWY0MCIgc3Ryb2tlLXdpZHRoPSIwLjgzIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiLz4KICAgICAgICA8cGF0aCBkPSJNNTg5LjI5NiAxNDUuODczIEM1ODUuOTI3IDE0My4wNDcgNTg2LjkxNSAxMzYuMzI1IDU5MS41IDEzMC44NiBDNTk2LjA4NiAxMjUuMzk1IDYwMi41MzQgMTIzLjI1NSA2MDUuOTAzIDEyNi4wODIgQzYwOS4yNzEgMTI4LjkwOCA2MDguMjg0IDEzNS42MyA2MDMuNjk4IDE0MS4wOTUgQzU5OS4xMTIgMTQ2LjU2IDU5Mi42NjQgMTQ4LjY5OSA1ODkuMjk2IDE0NS44NzMgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDg5ZjQwIiBzdHJva2Utd2lkdGg9IjAuODMiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIvPgogICAgICAgIDxwYXRoIGQ9Ik02MDEuODU2IDE0NS44MjkgTDUzNS4zOTYgMTg5LjgzMiBMNDY4LjEzOSAxMjQuMTcgTDUyMS4zNzUgODkuMjg4IEw1ODcuMDM2IDE0OS4wMjEgQzU4OS42NTggMTUxLjA3MyA1OTUuOTI4IDE1MC4zODkgNjAxLjg1NiAxNDUuODI5IFoiIGZpbGw9IiNmY2YwY2IiLz4KICAgICAgICA8cGF0aCBkPSJNNTE1LjMzMyA3OC44IEM1MTYuMTk1IDc0LjEyNCA1MjAuNCA2NC44MDcgNTI4Ljg3NCA2Mi44NzEgQzUzMS44NDQgNjIuMTkyIDUzNS42NzUgNjMuNTIyIDUzOS4yNDMgNjYuNDY5IEw2MDguODEgMTIzLjk0MiBDNjA4LjgxIDEyMy45NDIgNjA4LjYyMyAxMjQuMTYgNjA4LjAwOSAxMjMuNjQ1IEM2MDMuNzY5IDEyMC4wODcgNTk1LjcyMiAxMjIuNjk3IDU5MC4wMzYgMTI5LjQ3MyBDNTg0LjYzOSAxMzUuOTA1IDU4My4zMDggMTQzLjc3OSA1ODYuODEzIDE0Ny42MDUgTDU4Ni4yMzggMTQ4LjIyMyBMNTIwLjY5MSA4OC44MzIgQzUyMC42OTEgODguODMyIDUxNC4yOTIgODQuNDQ3IDUxNS4zMzMgNzguOCBaIiBmaWxsPSJ1cmwoI3AzMjQ0MC1saW5lYXItZ3JhZGllbnQtMikiLz4KICAgICAgPC9nPgogICAgICA8Zz4KICAgICAgICA8cGF0aCBkPSJNNDMyLjY1NiAzOS44NzMgTDQzMi42NTYgNDQuMjA5IEM0MzIuNjU2IDQ0Ljc4OSA0MzIuMTg2IDQ1LjI1OSA0MzEuNjA3IDQ1LjI1OSBDNDMxLjAyNyA0NS4yNTkgNDMwLjU1OCA0NC43ODkgNDMwLjU1OCA0NC4yMDkgTDQzMC41NTggMzkuODczIEM0MzAuNTU4IDM5LjI5MyA0MzEuMDI3IDM4LjgyNCA0MzEuNjA3IDM4LjgyNCBDNDMyLjE4NiAzOC44MjQgNDMyLjY1NiAzOS4yOTMgNDMyLjY1NiAzOS44NzMgTTQzMi42NTYgNTIuODgyIEw0MzIuNjU2IDYxLjU1NSBDNDMyLjY1NiA2Mi4xMzUgNDMyLjE4NiA2Mi42MDUgNDMxLjYwNyA2Mi42MDUgQzQzMS4wMjcgNjIuNjA1IDQzMC41NTggNjIuMTM1IDQzMC41NTggNjEuNTU1IEw0MzAuNTU4IDUyLjg4MiBDNDMwLjU1OCA1Mi4zMDMgNDMxLjAyNyA1MS44MzMgNDMxLjYwNyA1MS44MzMgQzQzMi4xODYgNTEuODMzIDQzMi42NTYgNTIuMzAzIDQzMi42NTYgNTIuODgyIE00MzIuNjU2IDcwLjIyOCBMNDMyLjY1NiA3OC45MDEgQzQzMi42NTYgNzkuNDgxIDQzMi4xODYgNzkuOTUgNDMxLjYwNyA3OS45NSBDNDMxLjAyNyA3OS45NSA0MzAuNTU4IDc5LjQ4MSA0MzAuNTU4IDc4LjkwMSBMNDMwLjU1OCA3MC4yMjggQzQzMC41NTggNjkuNjQ5IDQzMS4wMjcgNjkuMTc5IDQzMS42MDcgNjkuMTc5IEM0MzIuMTg2IDY5LjE3OSA0MzIuNjU2IDY5LjY0OSA0MzIuNjU2IDcwLjIyOCBNNDMyLjY1NiA4Ny41NzQgTDQzMi42NTYgOTYuMjQ3IEM0MzIuNjU2IDk2LjgyNyA0MzIuMTg2IDk3LjI5NiA0MzEuNjA3IDk3LjI5NiBDNDMxLjAyNyA5Ny4yOTYgNDMwLjU1OCA5Ni44MjcgNDMwLjU1OCA5Ni4yNDcgTDQzMC41NTggODcuNTc0IEM0MzAuNTU4IDg2Ljk5NSA0MzEuMDI3IDg2LjUyNSA0MzEuNjA3IDg2LjUyNSBDNDMyLjE4NiA4Ni41MjUgNDMyLjY1NiA4Ni45OTUgNDMyLjY1NiA4Ny41NzQgTTQzMi42NTYgMTA0LjkyIEw0MzIuNjU2IDExMy41OTMgQzQzMi42NTYgMTE0LjE3MiA0MzIuMTg2IDExNC42NDIgNDMxLjYwNyAxMTQuNjQyIEM0MzEuMDI3IDExNC42NDIgNDMwLjU1OCAxMTQuMTcyIDQzMC41NTggMTEzLjU5MyBMNDMwLjU1OCAxMDQuOTIgQzQzMC41NTggMTA0LjM0MSA0MzEuMDI3IDEwMy44NzEgNDMxLjYwNyAxMDMuODcxIEM0MzIuMTg2IDEwMy44NzEgNDMyLjY1NiAxMDQuMzQxIDQzMi42NTYgMTA0LjkyIE00MzIuNjU2IDEyMi4yNjYgTDQzMi42NTYgMTMwLjkzOSBDNDMyLjY1NiAxMzEuNTE4IDQzMi4xODYgMTMxLjk4OCA0MzEuNjA3IDEzMS45ODggQzQzMS4wMjcgMTMxLjk4OCA0MzAuNTU4IDEzMS41MTggNDMwLjU1OCAxMzAuOTM5IEw0MzAuNTU4IDEyMi4yNjYgQzQzMC41NTggMTIxLjY4NiA0MzEuMDI3IDEyMS4yMTcgNDMxLjYwNyAxMjEuMjE3IEM0MzIuMTg2IDEyMS4yMTcgNDMyLjY1NiAxMjEuNjg2IDQzMi42NTYgMTIyLjI2NiBNNDMyLjY1NiAxMzkuNjEyIEw0MzIuNjU2IDE0OC4yODUgQzQzMi42NTYgMTQ4Ljg2NCA0MzIuMTg2IDE0OS4zMzQgNDMxLjYwNyAxNDkuMzM0IEM0MzEuMDI3IDE0OS4zMzQgNDMwLjU1OCAxNDguODY0IDQzMC41NTggMTQ4LjI4NSBMNDMwLjU1OCAxMzkuNjEyIEM0MzAuNTU4IDEzOS4wMzIgNDMxLjAyNyAxMzguNTYzIDQzMS42MDcgMTM4LjU2MyBDNDMyLjE4NiAxMzguNTYzIDQzMi42NTYgMTM5LjAzMiA0MzIuNjU2IDEzOS42MTIgTTQzMi42NTYgMTU2Ljk1OCBMNDMyLjY1NiAxNjUuNjMxIEM0MzIuNjU2IDE2Ni4yMSA0MzIuMTg2IDE2Ni42OCA0MzEuNjA3IDE2Ni42OCBDNDMxLjAyNyAxNjYuNjggNDMwLjU1OCAxNjYuMjEgNDMwLjU1OCAxNjUuNjMxIEw0MzAuNTU4IDE1Ni45NTggQzQzMC41NTggMTU2LjM3OCA0MzEuMDI3IDE1NS45MDggNDMxLjYwNyAxNTUuOTA4IEM0MzIuMTg2IDE1NS45MDggNDMyLjY1NiAxNTYuMzc4IDQzMi42NTYgMTU2Ljk1OCBNNDMyLjY1NiAxNzQuMzA0IEw0MzIuNjU2IDE4Mi45NzcgQzQzMi42NTYgMTgzLjU1NiA0MzIuMTg2IDE4NC4wMjYgNDMxLjYwNyAxODQuMDI2IEM0MzEuMDI3IDE4NC4wMjYgNDMwLjU1OCAxODMuNTU2IDQzMC41NTggMTgyLjk3NyBMNDMwLjU1OCAxNzQuMzA0IEM0MzAuNTU4IDE3My43MjQgNDMxLjAyNyAxNzMuMjU0IDQzMS42MDcgMTczLjI1NCBDNDMyLjE4NiAxNzMuMjU0IDQzMi42NTYgMTczLjcyNCA0MzIuNjU2IDE3NC4zMDQgTTQzMi42NTYgMTkxLjY0OSBMNDMyLjY1NiAyMDAuMzIyIEM0MzIuNjU2IDIwMC45MDIgNDMyLjE4NiAyMDEuMzcyIDQzMS42MDcgMjAxLjM3MiBDNDMxLjAyNyAyMDEuMzcyIDQzMC41NTggMjAwLjkwMiA0MzAuNTU4IDIwMC4zMjIgTDQzMC41NTggMTkxLjY0OSBDNDMwLjU1OCAxOTEuMDcgNDMxLjAyNyAxOTAuNiA0MzEuNjA3IDE5MC42IEM0MzIuMTg2IDE5MC42IDQzMi42NTYgMTkxLjA3IDQzMi42NTYgMTkxLjY0OSBNNDMyLjY1NiAyMDguOTk1IEw0MzIuNjU2IDIxMy4zMzIgQzQzMi42NTYgMjEzLjkxMSA0MzIuMTg2IDIxNC4zODEgNDMxLjYwNyAyMTQuMzgxIEM0MzEuMDI3IDIxNC4zODEgNDMwLjU1OCAyMTMuOTExIDQzMC41NTggMjEzLjMzMiBMNDMwLjU1OCAyMDguOTk1IEM0MzAuNTU4IDIwOC40MTYgNDMxLjAyNyAyMDcuOTQ2IDQzMS42MDcgMjA3Ljk0NiBDNDMyLjE4NiAyMDcuOTQ2IDQzMi42NTYgMjA4LjQxNiA0MzIuNjU2IDIwOC45OTUiIGZpbGw9IiNmYmIwM2IiLz4KICAgICAgPC9nPgogICAgPC9nPgogIDwvZz4KPC9zdmc+");
+        background-size:100% 100%; background-repeat:no-repeat; background-position:center;
+      }`;
+  },
+
+  // paper 用：返回贴纸 DOM（本模板用 preview 作占位，按需改为 render() 自有结构）
+  render() {
+    return `<div class="bm-sticker-纸"><div class="bm-sticker-inner">${this.preview}</div></div>`;
+  },
+};
+
+window.__bamboo_material_纸 = material;
