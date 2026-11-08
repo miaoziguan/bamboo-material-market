@@ -63,9 +63,9 @@ const material = {
         border:none;
         aspect-ratio: 300.839 / 537.404;                /* TODO: 设计稿宽高比，须与背景图一致 */
         --rice-paper:transparent;               /* 纸底色；若设计本身是不透明纸才改 */
-        --ink-dark:#2f3a20;                     /* 主墨色（正文）*/
-        --ink-pale:#7a8a63;                     /* 淡墨（标题等弱信息）*/
-        --tw-rule-rgb:122,138,99;              /* 分隔线 RGB 三元组，与 --ink-pale 同色 */
+        --ink-dark:#563d15;                     /* 主墨色（正文）*/
+        --ink-pale:#a88957;                     /* 淡墨（标题等弱信息）*/
+        --tw-rule-rgb:168,137,87;              /* 分隔线 RGB 三元组，与 --ink-pale 同色 */
         --edge-distort:0;
         --noise:0;
       }
@@ -74,7 +74,7 @@ const material = {
       .tw-card[data-paper="菊"] .tw-card-noise{display:none;}
       /* 卡片主体：display:block 覆盖主题的 flex 布局，color 供正文继承 */
       .tw-card[data-paper="菊"] .tw-card-main{
-        background:transparent; color:#2f3a20; position:relative; height:100%; padding:0; display:block;
+        background:transparent; color:#563d15; position:relative; height:100%; padding:0; display:block;
       }
       /* 主题自带的标题栏：本设计自带标题，隐藏掉 */
       .tw-card[data-paper="菊"] .tw-card-title{ visibility:hidden; }
@@ -88,7 +88,7 @@ const material = {
          paper 规则特异性更高，写死即使字号调节失效。 */
       .tw-card[data-paper="菊"] .tw-card-text{
         position:absolute; top:33%; left:9.5%; right:23.6%; bottom:30.7%;
-        color:#2f3a20; z-index:2; overflow:auto;
+        color:#563d15; z-index:2; overflow:auto;
         /* 不要写 text-align：全局 .tw-card-text 已设 justify（两端对齐），
            皮肤规则特异性更高，写死 left/center 会顶掉它 —— 生活渐变四款就是这样踩的。 */
       }
