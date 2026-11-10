@@ -1,19 +1,19 @@
-// 文件名: 妙.js  →  全局变量: __bamboo_material_妙
+// 文件名: 妙02.js  →  全局变量: __bamboo_material_妙02
 // 版权：竹林用户专享 · 未经授权禁止使用（含个人使用）© 2026 羽鳞君 保留所有权利
 
 const material = {
   type: 'sticker',
-  name: '妙',
+  name: '妙02',
 
   // 市场列表缩略图：内联用户设计 SVG（默认 preserveAspectRatio=meet 不失真）
   preview:
     `<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 363.054 238.765">
   <defs>
-    <filter id="p22937-filter-1" filterUnits="userSpaceOnUse" x="123.735" y="68.518" width="73" height="73" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter>
-    <filter id="p22937-filter-2" filterUnits="userSpaceOnUse" x="214.735" y="58.518" width="73" height="73" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter>
+    <filter id="p23035-filter-1" filterUnits="userSpaceOnUse" x="123.735" y="68.518" width="73" height="73" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter>
+    <filter id="p23035-filter-2" filterUnits="userSpaceOnUse" x="214.735" y="58.518" width="73" height="73" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="5"/></filter>
   </defs>
-  <title>妙</title>
-  <g id="p22937-Asset_120" data-name="Asset 120">
+  <title>妙02</title>
+  <g id="p23035-Asset_120" data-name="Asset 120">
     <g>
       <path d="M171.818 21.454 C181.712 -4.059 223.142 -10.355 234.895 22.185 C248.008 16.874 269.091 14.775 288.154 28.298 C313.922 -8.229 371.229 16.361 362.073 59.499 L339.085 167.81 C337.684 174.413 334.473 180.194 330.071 184.723 C330.273 185.111 330.468 185.504 330.658 185.901 L330.658 185.901 C339.393 204.238 331.604 226.2 313.268 234.935 C274.961 253.184 241.297 201.785 273.29 173.965 C271.215 169.012 270.267 163.511 270.729 157.822 C248.482 193.132 198.284 229.047 177.437 232.105 C161.541 234.437 146.181 224.888 141.045 209.568 C129.792 213.814 118.978 210.936 106.794 205.614 C101.402 211.634 82.352 233.654 58.858 224.93 C42.432 218.83 22.648 192.585 51.212 164.284 C49.949 162.52 48.748 160.714 47.611 158.869 C6.025 175.496 -12.155 127.955 8.649 105.588 C15.587 98.128 26.466 93.123 35.891 88.665 C51.295 3.168 97.355 10.364 112.65 35.073 C128.888 17.904 153.104 14.531 171.818 21.454 Z" fill="#f7b52c"/>
       <g>
@@ -38,10 +38,10 @@ const material = {
         <path d="M160.934 188.841 C164.383 184.495 178.387 177.585 183.981 173.96 C230.109 144.065 227.514 124.988 239.623 118.757 C246.294 115.324 254.489 116.536 259.325 122.474 C277.717 145.063 195.374 211.168 174.808 214.184 C158.933 216.513 153.527 198.175 160.934 188.841 Z" fill="#000000"/>
       </g>
     </g>
-    <g filter="url(#p22937-filter-1)">
+    <g filter="url(#p23035-filter-1)">
       <circle cx="160.235" cy="105.018" r="19.5" fill="#ff6d72"/>
     </g>
-    <g filter="url(#p22937-filter-2)">
+    <g filter="url(#p23035-filter-2)">
       <circle cx="251.235" cy="95.018" r="19.5" fill="#ff6d72"/>
     </g>
   </g>
@@ -49,11 +49,11 @@ const material = {
 
   // 拖入画布后，插件用此 DOM 包裹素材（外层由插件加拖拽/旋转/缩放手柄）
   render() {
-    return '<div class="bm-sticker-妙" aria-label="妙贴纸">' + this.preview + '</div>';
+    return '<div class="bm-sticker-妙02" aria-label="妙02贴纸">' + this.preview + '</div>';
   },
 
   init(el) {},
   destroy() {},
 };
 
-if (typeof window !== 'undefined') { window.__bamboo_material_妙 = material; }
+if (typeof window !== 'undefined') { window.__bamboo_material_妙02 = material; }

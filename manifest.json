@@ -907,15 +907,26 @@
       "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/西红柿.svg"
     },
     {
-      "id": "妙",
-      "name": "妙",
+      "id": "妙01",
+      "name": "妙01",
       "type": "sticker",
       "author": "羽鳞君",
-      "version": "1.0.1",
-      "description": "用户设计的妙主题插画贴纸，拖到画布落一张贴纸。",
-      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/妙.js",
+      "version": "1.0.0",
+      "description": "用户设计的妙01主题插画贴纸，拖到画布落一张贴纸。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/妙01.js",
       "series": "字造",
-      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/妙.svg"
+      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/妙01.svg"
+    },
+    {
+      "id": "妙02",
+      "name": "妙02",
+      "type": "sticker",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "用户设计的妙02主题插画贴纸，拖到画布落一张贴纸。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/妙02.js",
+      "series": "字造",
+      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/妙02.svg"
     }
   ]
 }
