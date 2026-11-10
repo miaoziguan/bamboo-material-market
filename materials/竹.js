@@ -59,7 +59,6 @@ const material = {
     return `
       .tw-card[data-paper="竹"]{
         background:transparent;                 /* 必须透明：背景交给设计图，别盖掉它 */
-        box-shadow:none;
         border:none;
         aspect-ratio: 300.839 / 537.404;                /* TODO: 设计稿宽高比，须与背景图一致 */
         --rice-paper:transparent;               /* 纸底色；若设计本身是不透明纸才改 */
