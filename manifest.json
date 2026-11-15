@@ -819,6 +819,16 @@
       "series": "文房四宝"
     },
     {
+      "id": "献给阿尔吉侬的花束",
+      "name": "献给阿尔吉侬的花束",
+      "type": "paper",
+      "author": "羽鳞君",
+      "version": "1.0.0",
+      "description": "阿尔吉侬是我的朋友，也是我的镜子——献给阿尔吉侬的花束主题便签皮肤。整幅设计插画（含背景），右侧留白为书写区。",
+      "url": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/materials/献给阿尔吉侬的花束.js",
+      "previewUrl": "https://raw.githubusercontent.com/miaoziguan/bamboo-material-market/main/previews/献给阿尔吉侬的花束.svg"
+    },
+    {
       "id": "白菜",
       "name": "白菜",
       "type": "sticker",
